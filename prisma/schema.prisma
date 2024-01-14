@@ -1,0 +1,91 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "postgresqlExtensions"]
+  binaryTargets   = ["native", "linux-arm64-openssl-1.0.x"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [vector]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model User {
+  id                     String    @id @default(cuid())
+  name                   String?
+  email                  String?   @unique
+  emailVerified          DateTime?
+  image                  String?
+  username               String?   @unique
+  quizzesAnswered        Int       @default(0)
+  createdDate            DateTime  @default(now())
+  stripeCurrentPeriodEnd DateTime? @map("stripe_current_period_end")
+  stripeCustomerId       String?   @unique @map("stripe_customer_id")
+  stripePriceId          String?   @map("stripe_price_id")
+  stripeSubscriptionId   String?   @unique @map("stripe_subscription_id")
+  accounts               Account[]
+  sessions               Session[]
+  quizzes Quiz[]
+}
+
+model Quiz {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  image       String?
+  // questions   Question[]
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  createdDate DateTime @default(now())
+  embeddings  Embeddings[]
+  questions   Json?
+}
+
+// model Question {
+//   id          String   @id @default(cuid())
+//   title       String
+//   description String?
+//   image       String?
+//   answers     String[]
+//   quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+//   quizId      String
+//   createdDate DateTime @default(now())
+// }
+
+model Embeddings {
+  id        String                 @id @default(cuid())
+  content   String?
+  quizId    String
+  embedding Unsupported("vector")?
+  quiz      Quiz                   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
