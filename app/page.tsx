@@ -15,9 +15,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import addEmailToPremium from "../util/updateNeon";
+import { Session } from "next-auth";
+
 
 export default async function Home() {
-  const session = null;//await getAuthSession();
+  let session: Session | null = await getAuthSession();
 
   return (
     <div>
