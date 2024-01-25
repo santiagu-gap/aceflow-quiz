@@ -17,7 +17,7 @@ const Navbar = ({ session }: { session: Session | null }) => {
   const [membershipType, setMembershipType] = useState("free");
 
   return (
-    <div className="w-full">
+    <div className="fixed w-full">
       <nav className="flex items-center justify-between md:px-6 py-6">
         <Link href={"/create"}>
           <div className="text-2xl opacity-0 md:opacity-100 font-bold md:text-4xl">
