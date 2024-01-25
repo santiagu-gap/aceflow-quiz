@@ -18,15 +18,15 @@ const Navbar = ({ session }: { session: Session | null }) => {
 
   return (
     <div className="w-full">
-      <nav className="flex items-center justify-between px-6 py-6">
+      <nav className="flex items-center justify-between md:px-6 py-6">
         <Link href={"/create"}>
-          <div className="text-2xl font-bold md:text-4xl">
+          <div className="text-2xl opacity-0 md:opacity-100 font-bold md:text-4xl">
             Ace
             <span className="text-primary">flow</span>
           </div>
         </Link>
 
-        <div className="absolute opacity-0 md:relative md:opacity-100 inline-flex gap-4">
+        <div className="absolute flex justify-around w-full inline-flex md:w-auto md:gap-4 md:relative md:flex-none md:justify-normal ">
           {membershipType === "pro" ? (
             <Button
               onClick={() => {
@@ -49,8 +49,6 @@ const Navbar = ({ session }: { session: Session | null }) => {
           )}
           <AvatarDropdown session={session} />
         </div>
-
-
 
       </nav>
     </div>
