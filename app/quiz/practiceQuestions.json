@@ -1,0 +1,53 @@
+[
+    {
+      "question": "What popular sandbox game involves players creating and breaking various types of blocks in a 3D environment?",
+      "options": ["Fortnite", "Roblox", "Minecraft", "Terraria"],
+      "correctAnswer": "Minecraft"
+    },
+    {
+      "question": "In Minecraft, what is the name of the dimension often associated with dangerous creatures like Endermen and the Ender Dragon?",
+      "options": ["Nether", "End", "Overworld", "Aether"],
+      "correctAnswer": "End"
+    },
+    {
+      "question": "Which tool is commonly used to mine ores and blocks faster in Minecraft?",
+      "options": ["Shovel", "Axe", "Hoe", "Pickaxe"],
+      "correctAnswer": "Pickaxe"
+    },
+    {
+      "question": "What is the primary objective in Minecraft's survival mode?",
+      "options": ["Build structures", "Defeat enemies", "Gather resources", "Explore dimensions"],
+      "correctAnswer": "Gather resources"
+    },
+    {
+      "question": "Which biome in Minecraft is characterized by its vibrant red and brown landscape and giant mushrooms?",
+      "options": ["Desert", "Swamp", "Mushroom Fields", "Taiga"],
+      "correctAnswer": "Mushroom Fields"
+    },
+    {
+      "question": "What material is needed to craft the iconic torch in Minecraft?",
+      "options": ["Iron Ingot", "Coal", "Redstone", "Lapis Lazuli"],
+      "correctAnswer": "Coal"
+    },
+    {
+      "question": "Which hostile mob is known for exploding when it gets close to the player in Minecraft?",
+      "options": ["Creeper", "Skeleton", "Zombie", "Enderman"],
+      "correctAnswer": "Creeper"
+    },
+    {
+      "question": "What is the name of the block that players use to craft items in Minecraft?",
+      "options": ["Crafting Table", "Anvil", "Enchanting Table", "Furnace"],
+      "correctAnswer": "Crafting Table"
+    },
+    {
+      "question": "What is the term for the process of combining two items or blocks in Minecraft to create a new one?",
+      "options": ["Smelting", "Crafting", "Combining", "Enchanting"],
+      "correctAnswer": "Crafting"
+    },
+    {
+      "question": "Which dimension is often associated with dangerous and fiery environments in Minecraft?",
+      "options": ["End", "Overworld", "Nether", "Aether"],
+      "correctAnswer": "Nether"
+    }
+  ]
+  

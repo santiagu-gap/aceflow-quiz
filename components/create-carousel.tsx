@@ -138,7 +138,7 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back
               </Button>
-              <Button onClick={handleNextStep} disabled={!session}>
+              <Button onClick={handleNextStep} disabled={session}>
                 Next
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>

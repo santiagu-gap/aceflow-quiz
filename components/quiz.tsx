@@ -26,7 +26,9 @@ const QuizFrame = ({
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showQA, setShowQA] = useState(false);
 
-  const questions = JSON.parse(jsonQuestions)?.questions;
+  const questions = typeof jsonQuestions === 'string' ? JSON.parse(jsonQuestions)?.questions || [] : jsonQuestions;
+
+  //const questions = JSON.parse(jsonQuestions)?.questions;
 
   const [questionsStatus, setQuestionsStatus] = useState(
     Array(questions.length).fill(null)
