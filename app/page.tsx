@@ -21,7 +21,7 @@ export default async function Home() {
 
   return (
     <div>
-      <Navbar session={session} />
+      <Navbar session={session} fixed={true} />
       <CoolBlur />
       <div className="flex flex-col h-svh items-center justify-evenly px-6 pb-10 pt-20 pt-10 md:mx-32 md:pt-28">
         <div className="space-y-2 text-center">

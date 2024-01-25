@@ -11,13 +11,13 @@ import { Session } from "next-auth";
 import Link from "next/link";
 // import { getMembershipType } from '@/util/users';
 
-const Navbar = ({ session }: { session: Session | null }) => {
+const Navbar = ({ session, fixed }: { session: Session | null, fixed?: boolean }) => {
   const router = useRouter();
 
   const [membershipType, setMembershipType] = useState("free");
 
   return (
-    <div className="fixed w-full">
+    <div className={`${fixed ? 'fixed':""} w-full`}>
       <nav className="flex items-center justify-between md:px-6 py-6">
         <Link href={"/create"}>
           <div className="text-2xl opacity-0 md:opacity-100 font-bold md:text-4xl">
