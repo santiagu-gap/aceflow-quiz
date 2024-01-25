@@ -28,7 +28,7 @@ export function AvatarDropdown({ session }: { session: Session | null }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="cursor-pointer">
         <Avatar className="h-9 w-9 rounded-full">
-          <AvatarImage src={session?.user.image as string} draggable={false} />
+          <AvatarImage src={session?.user.image as string || "placeholder.jpg"} draggable={false} />
           <AvatarFallback className="rounded-full">
             {session?.user?.email?.charAt(0).toUpperCase()}
           </AvatarFallback>
