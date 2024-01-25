@@ -11,6 +11,8 @@ import CreateForm from '@/components/Create';
 import { Session } from 'next-auth';
 import Link from 'next/link';
 
+const signedIn_CHANGE_THIS_VALUE_FOR_PRODUCTION = true;
+
 export const fileTypes = [
   {
     id: 'pdf',
@@ -33,7 +35,7 @@ export const fileTypes = [
 ];
 
 const CreateCarousel = ({ session }: { session: Session | null }) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [selectedFileType, setSelectedFileType] = useState('pdf');
   const [question, setQuestion] = useState('');
 
@@ -52,7 +54,7 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
           Imagine Anything
         </span>
       </div>
-      <div className="flex w-full flex-col items-start justify-center px-4 md:flex-row lg:gap-6">
+      <div className="flex md:w-full flex-col items-start justify-center px-4 md:flex-row lg:gap-6">
         {step === 1 && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -83,11 +85,11 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
             transition={{ duration: 0.75 }}
             className="mb-8"
           >
-            {session ? (
-              <div className="flex flex-row items-center">
+            {signedIn_CHANGE_THIS_VALUE_FOR_PRODUCTION ? (
+              <div className="flex-row items-center">
                 <Tabs defaultValue="pdf">
-                  <TabsList className="h-56 w-[85vw]">
-                    {fileTypes.map(type => (
+                <TabsList className="flex flex-col h-screen justify-center md:h-fit md:flex-row md:h-56 md:w-[85vw]">
+                {fileTypes.map(type => (
                       <TabsTrigger
                         key={type.id}
                         value={type.id}
@@ -138,7 +140,7 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back
               </Button>
-              <Button onClick={handleNextStep} disabled={session}>
+              <Button onClick={handleNextStep} disabled={!signedIn_CHANGE_THIS_VALUE_FOR_PRODUCTION}>
                 Next
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
