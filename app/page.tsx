@@ -23,9 +23,9 @@ export default async function Home() {
     <div>
       <Navbar session={session} />
       <CoolBlur />
-      <div className="flex flex-col h-svh items-center justify-evenly px-6 pb-20 pt-10 md:mx-32 md:pt-28">
+      <div className="flex flex-col h-svh items-center justify-evenly px-6 pb-10 pt-20 pt-10 md:mx-32 md:pt-28">
         <div className="space-y-2 text-center">
-          <div className="text-xl font-bold md:text-4xl lg:text-6xl">
+          <div className="text-2xl font-bold md:text-4xl lg:text-6xl">
             <span>Ace Your Next Test With </span> <br />
             <span className="bg-gradient-to-r from-sky-600 via-blue-600 to-violet-600 inline-block text-transparent bg-clip-text">
               Unlimited Practice{" "}
@@ -33,6 +33,14 @@ export default async function Home() {
             <span> Questions</span>
           </div>
         </div>
+
+        <Image
+            src={"/A+final.png"}
+            height={100}
+            width={100}
+            alt=""
+            className="h-36 w-40 md:h-56 md:w-60 xl:h-64 xl:w-72"
+          />
 
         <div className="space-y-4 md:space-y-12 text-center flex flex-col">
           <div className="text-sm font-semibold md:text-xl lg:px-[20%]">
