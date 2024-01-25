@@ -60,19 +60,32 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
             transition={{ duration: 0.75 }}
             className="mb-8 w-full md:w-2/3"
           >
-            <Textarea
-              className="h-36 w-full rounded-md border p-4"
-              placeholder="What would you like to be quizzed on?"
-              name="question"
-              id="question"
-              rows={10}
-              value={question}
-              onChange={e => setQuestion(e.target.value)}
-            />
-            <Button onClick={handleNextStep} className="mt-4">
-              Next
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            {session ? (
+              <>
+                <Textarea
+                  className="h-36 w-full rounded-md border p-4"
+                  placeholder="What would you like to be quizzed on?"
+                  name="question"
+                  id="question"
+                  rows={10}
+                  value={question}
+                  onChange={e => setQuestion(e.target.value)}
+                />
+                <Button onClick={handleNextStep} className="mt-4">
+                  Next
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </>
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-8">
+                <span className="text-3xl font-semibold text-primary">
+                  Sign in to continue
+                </span>
+                <Link href={'/login'} className='mb-8'>
+                  <Button size={"lg"} className='scale-110'>Join Now</Button>
+                </Link>
+              </div>
+            )}
           </motion.div>
         )}
 
@@ -83,7 +96,46 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
             transition={{ duration: 0.75 }}
             className="mb-8"
           >
-            {session ? (
+            <div className="flex flex-row items-center">
+              <Tabs defaultValue="pdf">
+                <TabsList className="h-56 w-[85vw]">
+                  {fileTypes.map(type => (
+                    <TabsTrigger
+                      key={type.id}
+                      value={type.id}
+                      onClick={() => setSelectedFileType(type.id)}
+                      className={`flex h-full w-full flex-col items-center justify-center gap-6 transition duration-500 ${
+                        type.id !== selectedFileType ? 'grayscale' : ''
+                      }`}
+                      style={{
+                        filter:
+                          type.id !== selectedFileType
+                            ? 'grayscale(100%)'
+                            : 'none'
+                      }}
+                    >
+                      <Image
+                        src={type.icon}
+                        alt={type.name}
+                        width={64}
+                        height={64}
+                        className="select-none"
+                        draggable={false}
+                      />
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        <span className="text-2xl font-semibold">
+                          {type.name}
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          {type.description}
+                        </span>
+                      </div>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
+            </div>
+            {/* {session ? (
               <div className="flex flex-row items-center">
                 <Tabs defaultValue="pdf">
                   <TabsList className="h-56 w-[85vw]">
@@ -131,7 +183,7 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
                   <Button size={"lg"} className='scale-110'>Join Now</Button>
                 </Link>
               </div>
-            )}
+            )} */}
 
             <div className="mt-8 flex justify-center gap-4">
               <Button onClick={handlePreviousStep} variant="secondary">
@@ -170,18 +222,21 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
       </div>
       <div className="mt-4 flex h-2 w-full gap-1.5 rounded-full md:w-2/3">
         <div
-          className={`h-1.5 rounded-full ${step > 0 ? 'bg-primary' : 'bg-gray-200'
-            }`}
+          className={`h-1.5 rounded-full ${
+            step > 0 ? 'bg-primary' : 'bg-gray-200'
+          }`}
           style={{ width: '33.33%' }}
         />
         <div
-          className={`h-1.5 rounded-full ${step > 1 ? 'bg-primary' : 'bg-gray-200'
-            }`}
+          className={`h-1.5 rounded-full ${
+            step > 1 ? 'bg-primary' : 'bg-gray-200'
+          }`}
           style={{ width: '33.33%' }}
         />
         <div
-          className={`h-1.5 rounded-full ${step > 2 ? 'bg-primary' : 'bg-gray-200'
-            }`}
+          className={`h-1.5 rounded-full ${
+            step > 2 ? 'bg-primary' : 'bg-gray-200'
+          }`}
           style={{ width: '33.33%' }}
         />
       </div>
