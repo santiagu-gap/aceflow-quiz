@@ -12,15 +12,16 @@ export default async function Home() {
   return (
     <div className="flex flex-col h-screen bg-gradient-to-b from-primary to-pink-600 text-secondary-foreground">
       <Navbar session={null} bg/>
-      <div className="relative flex flex-grow w-screen ">
-        <div className="px-4 md:px-10 py-40 md:w-[35%] text-white">
+      <div className="relative flex flex-col flex-grow w-screen md:w-full md:flex-row">
+        <div className="px-4 py-20 md:px-10 md:py-40 md:w-[35%] text-white">
           <h1 className="text-center text-2xl font-semibold md:text-3xl lg:text-4xl">
             Aceflow helps students succeed faster than ever{" "}
           </h1>
         </div>
 
-        <div
-          className="flex flex-col items-center justify-center
+        <div className="
+          rounded-t-[3rem] flex-grow
+          flex flex-col items-center justify-center
           dark:bg-background/90 bg-background/95 text-secondary-foreground
           md:absolute 
           md:inset-y-0 
@@ -28,8 +29,8 @@ export default async function Home() {
           md:w-[62%] 
           md:rounded-[3rem]
           hover:rounded-[rem]
-          transition-all duration-1000 ease-in-out
-          gap-y-20 my-8 mr-8 hover:my-4 hover:mr-4"
+          lg:transition-all lg:duration-1000 lg:ease-in-out
+          gap-y-20 md:my-8 md:mr-8 lg:hover:my-4 lg:hover:mr-4"
         >
           <div className="py-4 text-center text-xl font-bold px-24 md:text-5xl lg:text-6xl">
             Your next journey starts <span className="text-primary">here</span>
