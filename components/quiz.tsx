@@ -22,7 +22,7 @@ const QuizFrame = ({
   questions: any;
   id: string;
 }) => {
-  // const router = useRouter();
+  const router = useRouter();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showQA, setShowQA] = useState(false);
 
@@ -35,29 +35,31 @@ const QuizFrame = ({
   );
   const [score, setScore] = useState(0);
 
-  console.log(questions);
+  // console.log(questions);
 
   // Handle the next button click
 
-  const handleNext = (status: string) => {
+  const correctTheAnswer = (status: string) => {
     // Update the status of the current question
     if (status == 'correct') {
       questionsStatus[currentQuestionIndex] = 'correct';
     } else if (status == 'incorrect') {
       questionsStatus[currentQuestionIndex] = 'incorrect';
     }
+  }
 
+  const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       // Quiz completed, navigate to the result page or show a completion message
-      //   router.push(`/quiz/${questions[0].quizId}/result`);
+      router.push(`/quiz/${questions[0].quizId}/result`);
     }
   };
 
   return (
     <div>
-      <div className="fixed bottom-0 right-0 p-5">
+      {/* <div className="fixed bottom-0 right-0 p-5">
         <Button
           variant={'outline'}
           size={'lg'}
@@ -66,8 +68,8 @@ const QuizFrame = ({
         >
           Help 🤔
         </Button>
-      </div>
-      <div className={`grid grid-cols-3 gap-4 px-16`}>
+      </div> */}
+      <div className={`grid grid-cols-3 gap-4 px-8 md:px-16`}>
         <div
           className={`${showQA ? 'col-span-2' : 'col-span-3'} flex flex-col`}
         >
@@ -77,6 +79,7 @@ const QuizFrame = ({
               options={questions[currentQuestionIndex]?.options}
               correctAnswer={questions[currentQuestionIndex]?.correctAnswer}
               onNext={handleNext}
+              correctTheAnswer={correctTheAnswer}
               questionsStatus={questionsStatus}
               currentQuestionIndex={currentQuestionIndex}
               setCurrentQuestionIndex={setCurrentQuestionIndex}
