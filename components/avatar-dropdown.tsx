@@ -35,8 +35,14 @@ export function AvatarDropdown({ session }: { session: Session | null }) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+      <Link href={'/'}>
+          <DropdownMenuItem>
+            Home
+          </DropdownMenuItem>
+        </Link>
         <Link href={'/login'}>
-          <DropdownMenuItem onClick={() => setTheme('light')}>
+          {/* <DropdownMenuItem onClick={() => setTheme('light')}> */}
+          <DropdownMenuItem>
             Account
           </DropdownMenuItem>
         </Link>
