@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
+import Completed from '@/app/quiz/completed';
 
 type QuizQuestionProps = {
   question: string;
@@ -13,6 +14,8 @@ type QuizQuestionProps = {
   correctTheAnswer: (status: string) => void;
   currentQuestionIndex: number;
   setCurrentQuestionIndex: (index: number) => void;
+  isCompleted: boolean;
+  score: number;
 };
 
 const QuizQuestion: React.FC<QuizQuestionProps> = ({
@@ -23,13 +26,16 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
   onNext,
   correctTheAnswer,
   currentQuestionIndex,
-  setCurrentQuestionIndex
+  setCurrentQuestionIndex,
+  isCompleted,
+  score
 }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showFeedback, setShowFeedback] = useState<boolean>(true);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   // const [questionNumber, setQuestionNumber] = useState<number>(0);
+
 
   console.log(questionsStatus);
 
@@ -63,7 +69,9 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
   //console.log(question);
 
   return (
-    <div className="flex w-full flex-col items-center gap-6">
+
+    <div>
+      {isCompleted ? <Completed score={score}/> : (<div className="flex w-full flex-col items-center gap-6">
       <h2 className=" text-center text-xl font-bold md:w-2/3 md:text-2xl">
         {question}
       </h2>
@@ -76,12 +84,18 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
             variant={'outline'}
             className={`w-full border-gray-300 py-6 disabled:opacity-100 ${
               selectedOption === option
-                ? `ring-2 ring-primary ${
-                    questionsStatus[currentQuestionIndex] === 'correct' &&
-                    questionsStatus[currentQuestionIndex] !== null
-                      ? 'bg-green-400 ring-green-400'
-                      : 'bg-red-400 ring-red-400'
-                  }`
+                ? `ring-2 ring-primary 
+                ${
+                  questionsStatus[currentQuestionIndex] !== null
+                    ? `${
+                        questionsStatus[currentQuestionIndex] === 'correct' &&
+                        questionsStatus[currentQuestionIndex] !== null
+                          ? 'bg-green-400 ring-green-400'
+                          : 'bg-red-400 ring-red-400'
+                      }`
+                    : ''
+                }
+              `
                 : ''
             }`}
             disabled={buttonDisabled}
@@ -129,7 +143,10 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
           />
         ))}
       </div>
+    </div>) }
     </div>
+
+    
   );
 };
 

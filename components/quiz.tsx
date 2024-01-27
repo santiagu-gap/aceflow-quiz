@@ -23,6 +23,7 @@ const QuizFrame = ({
   id: string;
 }) => {
   const router = useRouter();
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showQA, setShowQA] = useState(false);
 
@@ -43,6 +44,7 @@ const QuizFrame = ({
     // Update the status of the current question
     if (status == 'correct') {
       questionsStatus[currentQuestionIndex] = 'correct';
+      setScore(score+1);
     } else if (status == 'incorrect') {
       questionsStatus[currentQuestionIndex] = 'incorrect';
     }
@@ -53,7 +55,12 @@ const QuizFrame = ({
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       // Quiz completed, navigate to the result page or show a completion message
-      router.push(`/quiz/${questions[0].quizId}/result`);
+
+      setIsCompleted(true);
+
+      // router.push(`/quiz/${questions[0].quizId}/result`);
+      // router.push(`/completed`);
+
     }
   };
 
@@ -83,6 +90,8 @@ const QuizFrame = ({
               questionsStatus={questionsStatus}
               currentQuestionIndex={currentQuestionIndex}
               setCurrentQuestionIndex={setCurrentQuestionIndex}
+              isCompleted={isCompleted}
+              score={score}
             />
           ) : null}
         </div>
