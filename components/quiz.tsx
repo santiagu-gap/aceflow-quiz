@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import QuizQuestion from './quiz-question';
 import { Button } from '@/components/ui/button';
 import Chat from './chat-help';
+import { useRouter } from 'next/navigation';
 
 const QuizFrame = ({
   questions: jsonQuestions,
@@ -18,12 +19,13 @@ const QuizFrame = ({
   // Safely parse the questions
   const [questions, setQuestions] = useState<any[]>([]);
   const [questionsStatus, setQuestionsStatus] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
-    console.log('Received jsonQuestions:', jsonQuestions);
+    // console.log('Received jsonQuestions:', jsonQuestions);
     try {
       const parsedQuestions = JSON.parse(jsonQuestions)?.questions;
-      console.log('Parsed questions:', parsedQuestions);
+      // console.log('Parsed questions:', parsedQuestions);
       setQuestions(parsedQuestions || []);
       setQuestionsStatus(Array(parsedQuestions?.length || 0).fill(null));
     } catch (e) {
@@ -43,6 +45,7 @@ const QuizFrame = ({
     } else {
       // Quiz completed, navigate to the result page or show a completion message
       // Add logic for quiz completion here
+      // router.push(`/quiz/${id}/results`);
     }
   };
 

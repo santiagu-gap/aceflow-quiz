@@ -132,10 +132,10 @@ const CreateForm = ({
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    console.log('Session:', session);
+    // console.log('Session:', session);
   
     if (!session || !session.user) {
-      console.log("No session or user found");
+      // console.log("No session or user found");
       return;
     }
   
@@ -147,7 +147,7 @@ const CreateForm = ({
       docs = await getSources();
     } else if (selectedFileType === 'yt') {
       const transcript = await getTranscript();
-      console.log('got transcript')
+      // console.log('got transcript')
       docs = transcript;
     } else if (selectedFileType === 'url') {
       docs = await getUrlSources();
@@ -159,8 +159,8 @@ const CreateForm = ({
       pulse: true
     });
   
-    console.log("Making API call to create quiz with data:", docs);
-    console.log("Userid is:", session?.user.id ?? 'defaultUserId');
+    // console.log("Making API call to create quiz with data:", docs);
+    // console.log("Userid is:", session?.user.id ?? 'defaultUserId');
     try {
       const response = await axios.post(`/api/create`, {
         data: {
@@ -171,13 +171,13 @@ const CreateForm = ({
       });
   
       const quizId = response.data.quiz.id;
-      console.log("Data", response.data);
+      // console.log("Data", response.data);
       setButtonStatus({
         text: 'Quiz created 🎉',
         disabled: true,
         pulse: false
       });
-      console.log('Success receiving data');
+      // console.log('Success receiving data');
       router.push(`/quiz/${quizId}`);
     } catch (err) {
       console.error('Error creating quiz', err);
