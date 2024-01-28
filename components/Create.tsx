@@ -133,16 +133,16 @@ const CreateForm = ({
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     console.log('Session:', session);
-
+  
     if (!session || !session.user) {
       console.log("No session or user found");
       return;
     }
-
+  
     e.preventDefault();
-
+  
     let docs: any = [];
-
+  
     if (selectedFileType === 'pdf') {
       docs = await getSources();
     } else if (selectedFileType === 'yt') {
@@ -152,64 +152,42 @@ const CreateForm = ({
     } else if (selectedFileType === 'url') {
       docs = await getUrlSources();
     }
-
+  
     setButtonStatus({
       text: 'Uploading...',
       disabled: true,
       pulse: true
     });
-
+  
     console.log("Making API call to create quiz with data:", docs);
-    console.log("Userid is:", session?.user.id ?? 'defaultUserId')
-    await axios
-      .post(`/api/create`, {
+    console.log("Userid is:", session?.user.id ?? 'defaultUserId');
+    try {
+      const response = await axios.post(`/api/create`, {
         data: {
           title: 'another',
           docs: docs,
           userId: session?.user.id ?? 'defaultUserId'
         }
-      })
-      .then(res => {
-        const quizId = res.data
-        console.log("wagwan" + quizId)
-        axios
-          .post(`/api/quiz`, {
-            data: {
-              id: quizId,
-              question: question
-            }
-          })
-          .then(res => {
-            console.log("Data" + res.data);
-            setButtonStatus({
-              text: 'Quiz created 🎉',
-              disabled: true,
-              pulse: false
-            });
-            console.log('Success')
-            router.push(`/quiz/${quizId}`);
-          })
-          .catch(err => {
-            console.log('Oh no!')
-            console.log(err);
-          });
-
-        setButtonStatus({
-          text: 'Creating quiz...',
-          disabled: true,
-          pulse: true
-        });
-      })
-      .catch(err => {
-        setButtonStatus({
-          text: 'Error creating quiz',
-          disabled: false,
-          pulse: false
-        });
-        console.log('oh boi')
-        console.log(err);
       });
-  }
+  
+      const quizId = response.data.quiz.id;
+      console.log("Data", response.data);
+      setButtonStatus({
+        text: 'Quiz created 🎉',
+        disabled: true,
+        pulse: false
+      });
+      console.log('Success');
+      router.push(`/quiz/${quizId}`);
+    } catch (err) {
+      console.error('Error creating quiz', err);
+      setButtonStatus({
+        text: 'Error creating quiz',
+        disabled: false,
+        pulse: false
+      });
+    }
+  }  
 
   const ytMutation = useMutation({
     mutationFn: (link: string) => {

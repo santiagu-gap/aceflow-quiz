@@ -67,7 +67,7 @@ model Quiz {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   createdDate DateTime @default(now())
-  embeddings  Embeddings[]
+  // embeddings  Embeddings[]
   questions   Json?
 }
 
@@ -82,10 +82,10 @@ model Quiz {
 //   createdDate DateTime @default(now())
 // }
 
-model Embeddings {
-  id        String                 @id @default(cuid())
-  content   String?
-  quizId    String
-  embedding Unsupported("vector")?
-  quiz      Quiz                   @relation(fields: [quizId], references: [id], onDelete: Cascade)
-}
+// model Embeddings {
+//   id        String                 @id @default(cuid())
+//   content   String?
+//   quizId    String
+//   embedding Unsupported("vector")?
+//   quiz      Quiz                   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+// }

@@ -1,92 +1,106 @@
 import { db } from "@/lib/db";
-import { Embeddings, Quiz } from "@/types";
-import { Prisma } from "@prisma/client";
-import { PrismaVectorStore } from "langchain/vectorstores/prisma";
+import { Quiz } from "@/types";
 import { NextResponse } from "next/server";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
+import OpenAI from "openai";
 
+interface Doc {
+  title?: string;
+  metadata: {
+    author: string;
+    description: string;
+    source: string;
+    view_count: number;
+  };
+  pageContent: string;
+}
+
+const generateQuestions = async (docs: Doc[]) => {
+  const openai = new OpenAI({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY });
+
+  const combinedText = docs
+    .map((doc) => {
+      return `Title: ${doc.title}\nAuthor: ${doc.metadata.author}\nDescription: ${doc.metadata.description}\nSource: ${doc.metadata.source}\nView Count: ${doc.metadata.view_count}\n\n${doc.pageContent}`;
+    })
+    .join("\n\n");
+
+  const prompt = `
+    You are a world-class question generator for any text the user inputs. You will generate 10 questions based on the text. Here's how you will perform in 4 steps:
+
+    Step 1: You will receive the text
+    Step 2: You will generate 10 multiple choice questions with 4 choices based on the text. The questions should be specific to the text and out of the choices make sure that only one of them is correct. Make the questions obvious if the person doing the test has read the text
+    Step 3: You will put the questions in a JSON object array with each object being a question.
+
+    Here is the JSON Schema instance your output must adhere to:
+    {"type":"object","properties":{"question":{"type":"string","description":"The question"},"options":{"type":"array","items":{"type":"string"},"description":"The options"},"correctAnswer":{"type":"string","description":"The correct answer"}},"required":["question","options","correctAnswer"],"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"}
+
+    Here is the text: "${combinedText}"
+  `;
+
+  const response = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo-1106",
+    response_format: { type: "json_object" },
+    messages: [
+      {
+        role: "system",
+        content: prompt,
+      },
+    ],
+  });
+
+  console.log(response.choices[0].message.content);
+  return response.choices[0].message.content;
+};
 export async function POST(req: Request) {
   const { data } = await req.json();
-  console.log("API call success");
   const { userId, title, docs }: Quiz = data;
 
   if (!userId || !title || !docs) {
     console.log("Missing userId, title or docs");
-    return NextResponse.json({
-      error: "Missing userId, title or docs",
-    });
+    return NextResponse.json({ error: "Missing userId, title or docs" });
   }
 
-  const quiz = await db?.quiz
-    .create({
+  try {
+    // Step 1: Create the quiz
+    const quiz = await db?.quiz.create({
       data: {
         title: title,
         userId: userId,
       },
-    })
-    .catch((err: Error) => {
-      console.log("Create Error", err, "Done!");
     });
 
-  try {
-    const embeddingsModel = new HuggingFaceInferenceEmbeddings({
-      apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-      model: "sentence-transformers/all-MiniLM-L6-v2",
-    });
-
-    // const embeddingsModel = new OpenAIEmbeddings(
-    //   {
-    //     openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-    //     stripNewLines: true,
-    //     verbose: true,
-    //   },
-    //   {
-    //     // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-    //     basePath: "https://limcheekin-bge-small-en-v1-5.hf.space/v1",
-    //   }
-    // );
-
-    console.log("Loaded embeddings model from HuggingFace ✅");
-
-    const vectorStore = PrismaVectorStore.withModel<any>(db!).create(
-      embeddingsModel,
-      {
-        prisma: Prisma,
-        tableName: "Embeddings",
-        vectorColumnName: "embedding",
-        columns: {
-          id: PrismaVectorStore.IdColumn,
-          content: PrismaVectorStore.ContentColumn,
-        },
-      }
-    );
-
-    if (docs) {
-      await vectorStore.addModels(
-        await db!.$transaction(
-          docs.map((content) =>
-            db!.embeddings.create({
-              data: {
-                content: content?.pageContent,
-                quizId: quiz?.id,
-              } as Embeddings,
-            })
-          )
-        )
-      );
+    // Check if quiz creation was successful
+    if (!quiz) {
+      throw new Error("Failed to create quiz");
     }
 
-    console.log("Added embeddings to database ✅");
+    // Step 2: Generate questions with OpenAI
+    const transformedDocs: Doc[] = docs.map((doc: any) => ({
+      title: doc.title || "",
+      metadata: {
+        author: doc.metadata.author || "",
+        description: doc.metadata.description || "",
+        source: doc.metadata.source || "",
+        view_count: doc.metadata.view_count || 0,
+      },
+      pageContent: doc.pageContent || "",
+    }));
 
-    return NextResponse.json({
-      success: true,
-      quiz,
+    const generatedQuestions = await generateQuestions(transformedDocs);
+
+    // Check if the questions were generated successfully
+    if (!generatedQuestions) {
+      throw new Error("Failed to generate questions");
+    }
+
+    // Step 3: Update the quiz with generated questions
+    const updatedQuiz = await db.quiz.update({
+      where: { id: quiz.id },
+      data: { questions: generatedQuestions },
     });
-  } catch (error) {
+
+    return NextResponse.json({ success: true, quiz: updatedQuiz });
+  } catch (error: any) {
     console.log(error);
-    return NextResponse.json({
-      error: error,
-    });
+    return NextResponse.json({ error: error.message });
   }
 }
