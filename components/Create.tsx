@@ -58,9 +58,9 @@ const CreateForm = ({
             type: file.type
           });
           const fileSize = file.size;
-          console.log('File size:', fileSize);
-          console.log('File type:', file.type);
-          console.log('File name:', file.name);
+          // console.log('File size:', fileSize);
+          // console.log('File type:', file.type);
+          // console.log('File name:', file.name);
 
           setFileInfo(file);
           setFile(blob);
@@ -84,7 +84,7 @@ const CreateForm = ({
       }
     });
 
-    console.log(transcript.data);
+    // console.log(transcript.data);
 
     return transcript.data.docs;
   };
@@ -110,7 +110,7 @@ const CreateForm = ({
         return doc;
       });
 
-      console.log(pdfDocs);
+      // console.log(pdfDocs);
 
       return pdfDocs;
     }
@@ -132,6 +132,13 @@ const CreateForm = ({
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    console.log('Session:', session);
+
+    if (!session || !session.user) {
+      console.log("No session or user found");
+      return;
+    }
+
     e.preventDefault();
 
     let docs: any = [];
@@ -140,6 +147,7 @@ const CreateForm = ({
       docs = await getSources();
     } else if (selectedFileType === 'yt') {
       const transcript = await getTranscript();
+      console.log('got transcript')
       docs = transcript;
     } else if (selectedFileType === 'url') {
       docs = await getUrlSources();
@@ -151,17 +159,19 @@ const CreateForm = ({
       pulse: true
     });
 
+    console.log("Making API call to create quiz with data:", docs);
+    console.log("Userid is:", session?.user.id ?? 'defaultUserId')
     await axios
       .post(`/api/create`, {
         data: {
           title: 'another',
           docs: docs,
-          userId: session?.user.id
+          userId: session?.user.id ?? 'defaultUserId'
         }
       })
       .then(res => {
-        const quizId = res.data.quiz.id;
-
+        const quizId = res.data
+        console.log("wagwan" + quizId)
         axios
           .post(`/api/quiz`, {
             data: {
@@ -170,16 +180,17 @@ const CreateForm = ({
             }
           })
           .then(res => {
-            console.log(res.data);
+            console.log("Data" + res.data);
             setButtonStatus({
               text: 'Quiz created 🎉',
               disabled: true,
               pulse: false
             });
-
+            console.log('Success')
             router.push(`/quiz/${quizId}`);
           })
           .catch(err => {
+            console.log('Oh no!')
             console.log(err);
           });
 
@@ -195,6 +206,7 @@ const CreateForm = ({
           disabled: false,
           pulse: false
         });
+        console.log('oh boi')
         console.log(err);
       });
   }
@@ -224,7 +236,7 @@ const CreateForm = ({
 
   const { data: ytInfo, isPending: ytIsPending, error: ytError } = ytMutation;
 
-  console.log(ytInfo);
+  // console.log(ytInfo);
 
   return (
     <div className="flex w-full select-none flex-col gap-6">

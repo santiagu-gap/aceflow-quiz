@@ -8,7 +8,7 @@ import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
 
 export async function POST(req: Request) {
   const { data } = await req.json();
-
+  console.log("API call success");
   const { userId, title, docs }: Quiz = data;
 
   if (!userId || !title || !docs) {
