@@ -47,7 +47,7 @@ const generateQuestions = async (docs: Doc[]) => {
     ],
   });
 
-  console.log(response.choices[0].message.content);
+  console.log(response);
   return response.choices[0].message.content;
 };
 export async function POST(req: Request) {

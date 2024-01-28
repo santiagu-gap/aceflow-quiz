@@ -177,7 +177,7 @@ const CreateForm = ({
         disabled: true,
         pulse: false
       });
-      console.log('Success');
+      console.log('Success receiving data');
       router.push(`/quiz/${quizId}`);
     } catch (err) {
       console.error('Error creating quiz', err);
