@@ -3,10 +3,25 @@ import { useRouter } from "next/navigation";
 import { FaCheck } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import CoolBlur from "@/components/cool-blur";
+import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
-  const session = null;//await getAuthSession();
+  const session = null; //await getAuthSession();
+
+  const handleSubmit = async (
+    e: React.FormEvent,
+    url: string,
+    email: string
+  ) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(url, { email });
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   //-------------------------------------
   return (
@@ -15,7 +30,6 @@ export default function Home() {
       <CoolBlur />
 
       <div className="mx-6 grid items-center justify-center mt-4 gap-8 ">
-
         <div className="space-y-2 text-center">
           <div className="flex flex-col items-center justify-center text-4xl font-bold md:flex-row md:text-6xl">
             <span>Meet</span>
@@ -70,13 +84,14 @@ export default function Home() {
                   $5.99/mo
                 </div>
                 <button
-                  onClick={() => {
-                    router.push(`https://buy.stripe.com/eVa8xqbvTfypglaeUU`);
-                  }}
-                  className="mt-4 w-[70%] rounded-xl bg-primary px-1 
-                            py-3
-                            text-xl 
-                            font-bold text-white hover:bg-primary/90 md:w-[55%] md:py-6 md:text-4xl"
+                  onClick={(e) =>
+                    handleSubmit(
+                      e,
+                      "/api/checkout_sessions",
+                      "zakirangwala@gmail.com"
+                    )
+                  }
+                  className="mt-4 w-[70%] rounded-xl bg-primary px-1 py-3 text-xl font-bold text-white hover:bg-primary/90 md:w-[55%] md:py-6 md:text-4xl"
                 >
                   Go Unlimited
                 </button>
@@ -84,11 +99,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-
       </div>
 
       <div className="flex flex-col md:relative m-6 mt-12">
-        <button className=" md:absolute md:bottom-0 md:left-0 md:mb-0 md:text-lg"
+        <button
+          className=" md:absolute md:bottom-0 md:left-0 md:mb-0 md:text-lg"
           onClick={() => {
             router.push(`/`);
           }}
@@ -97,6 +112,5 @@ export default function Home() {
         </button>
       </div>
     </div>
-
   );
 }
