@@ -5,6 +5,7 @@ import CreateCarousel from "@/components/create-carousel";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Stripe from "stripe";
 import axios from 'axios';
+import Loading from "./loading";
 const plus_jakarta_sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -48,8 +49,10 @@ const Create = async () => {
       <CoolBlur />
 
       <div className="text-center">
+      <Loading/>
         <div className="mx-auto w-full px-8 space-y-12 pb-8">
-          <CreateCarousel session={session} />
+          {/* <CreateCarousel session={session} /> */}
+          
         </div>
       </div>
 
