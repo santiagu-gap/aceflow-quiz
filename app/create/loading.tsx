@@ -16,10 +16,10 @@ const Loading: React.FC<LoadingProps> = ({
 }) => {
   return (
     <div className="flex w-screen flex-col items-center pt-10 text-center">
-      <h1 className="px-6 mb-4 text-3xl font-bold md:px-0 md:text-5xl">
+      <h1 className="mx-2 mb-4 text-3xl font-bold md:mx-0 md:text-5xl">
         Are you ready to level up?
       </h1>
-      <p className="px-12 mb-6 text-sm md:px-0 md:text-lg">
+      <p className="mx-6 mb-6 text-sm md:mx-0 md:text-lg">
         Your practice questions will generate in less than 60 seconds
       </p>
 
