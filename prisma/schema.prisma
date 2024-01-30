@@ -55,7 +55,7 @@ model User {
   stripeSubscriptionId   String?   @unique @map("stripe_subscription_id")
   accounts               Account[]
   sessions               Session[]
-  quizzes Quiz[]
+  quizzes                Quiz[]
 }
 
 model Quiz {

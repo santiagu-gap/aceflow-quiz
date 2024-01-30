@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         },
       ],
       mode: "subscription",
-      success_url: `${new URL(req.url).origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${new URL(req.url).origin}/success?email=${email}`,
       cancel_url: `${new URL(req.url).origin}/?cancelled=true`,
       automatic_tax: { enabled: true },
     });

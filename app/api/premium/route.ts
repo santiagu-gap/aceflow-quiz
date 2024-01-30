@@ -1,25 +1,23 @@
-const { Client } = require('pg');
-import { NextResponse } from "next/server";
+"use client";
 
-export async function POST(req: Request) {
-    console.log("test");
-    const { data } = await req.json();
+import { NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
-    const { email } = data;
+// export async function POST(req: Request) {
+//   try {
+//     const { email } = await req.json();
+    
+//     // Update the user's plan to 'premium'
+//     const updatedUser = await prisma.user.update({
+//       where: { email: email },
+//       data: { plan: 'premium' },
+//     });
 
-    // Create a connection to the database
-    const client = new Client(process.env.DATABASE_URL);
-
-    // Connect to the database
-    await client.connect();
-
-    // Add the email to the "premium" table
-    const sql = `INSERT INTO premium (email) VALUES ('${email}')`;
-
-    await client.query(sql);
-
-    // Close the database connection
-    await client.end();
-
-    return NextResponse.json({ message: 'Email added to the premium table' });
-}
+//     return NextResponse.json({ message: 'User plan updated to premium', user: updatedUser });
+//   } catch (error) {
+//     console.error("Prisma API error:", error);
+//     const message = error instanceof Error ? error.message : "Unknown error";
+//     return NextResponse.json({ error: message }, { status: 500 });
+//   }
+// }

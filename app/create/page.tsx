@@ -11,33 +11,33 @@ const plus_jakarta_sans = Plus_Jakarta_Sans({
 });
 
 
-const webhook = async (req: any, res: any) => {
-  const sig = req.headers["stripe-signature"];
-  const stripe = new Stripe(process.env.STRIPE_SECRET!, {
-    apiVersion: "2023-10-16",
-  });
-  let event;
+// const webhook = async (req: any, res: any) => {
+//   const sig = req.headers["stripe-signature"];
+//   const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+//     apiVersion: "2023-10-16",
+//   });
+//   let event;
 
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
-  } catch (err: any) {
-    console.log(err);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
+//   try {
+//     event = stripe.webhooks.constructEvent(req.body, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
+//   } catch (err: any) {
+//     console.log(err);
+//     return res.status(400).send(`Webhook Error: ${err.message}`);
+//   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const userEmail = session.customer_email;
-    console.log(session);
-    console.log(userEmail);
-    const addEmailToPremium = await axios.post('/api/premium', {
-      "data": {
-        "email": userEmail
-      }
-    });
-  }
-  res.json({ received: true });
-}
+//   if (event.type === "checkout.session.completed") {
+//     const session = event.data.object;
+//     const userEmail = session.customer_email;
+//     console.log(session);
+//     console.log(userEmail);
+//     const addEmailToPremium = await axios.post('/api/premium', {
+//       "data": {
+//         "email": userEmail
+//       }
+//     });
+//   }
+//   res.json({ received: true });
+// }
 
 const Create = async () => {
   const session = await getAuthSession();
