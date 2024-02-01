@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -12,7 +12,7 @@ const SuccessMessage = () => {
       const queryParams = new URLSearchParams(window.location.search);
       const email = queryParams.get('email');
       if (email) {
-        console.log('Email:', email)
+        // console.log('Email:', email);
         addEmailToPremium(email);
       }
     }
@@ -20,10 +20,7 @@ const SuccessMessage = () => {
 
   const addEmailToPremium = async (userEmail: string) => {
     try {
-      console.log("Calling API")
-      const response = await axios.post('/api/premium', {
-        data: { email: userEmail }
-      });
+      const response = await axios.post('/api/premium', { email: userEmail });
       console.log('User updated to premium:', response.data);
     } catch (error) {
       console.error('Error updating user to premium:', error);
@@ -31,7 +28,7 @@ const SuccessMessage = () => {
   };
 
   const handleBackClick = () => {
-    router.push('/'); 
+    router.push('/');
   };
 
   return (
@@ -58,7 +55,7 @@ const SuccessMessage = () => {
           margin-left: 10px;
           margin-top: 5px;
           padding: 10px 20px;
-          background-color: #E11D48;
+          background-color: #e11d48;
           color: white;
           border: none;
           border-radius: 5px;

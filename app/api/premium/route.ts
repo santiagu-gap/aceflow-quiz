@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    console.log("running POST /api/premium route with email:");
+    // console.log("running POST /api/premium route with email:");
     const { email } = await req.json();
     // Update the user's plan to 'premium'
     const updatedUser = await prisma.user.update({
