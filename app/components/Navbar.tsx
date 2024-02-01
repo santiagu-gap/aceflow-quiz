@@ -16,6 +16,11 @@ const Navbar = ({ session }: { session: Session | null }) => {
 
   const [membershipType, setMembershipType] = useState("free");
 
+  const handleBackClick = () => {
+    // router.push('/');
+    window.location.href = "/";
+  };
+
   return (
     <div className="w-full">
       <nav className="flex items-center justify-between px-6 py-6">
@@ -38,20 +43,12 @@ const Navbar = ({ session }: { session: Session | null }) => {
               Imagine ✨
             </Button>
           ) : (
-            <Button
-              onClick={() => {
-                router.push(`/pro`);
-              }}
-              size={"sm"}
-            >
+            <Button onClick={handleBackClick} size={"sm"}>
               Try Aceflow Pro+
             </Button>
           )}
           <AvatarDropdown session={session} />
         </div>
-
-
-
       </nav>
     </div>
   );

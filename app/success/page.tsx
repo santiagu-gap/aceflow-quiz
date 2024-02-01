@@ -1,9 +1,13 @@
 import SuccessMessage from "@/components/SuccessMessage";
+import { getAuthSession } from "@/lib/auth";
 
-export default function SuccessPage() {
+export default async function SuccessPage() {
+  const session = await getAuthSession();
+  // console.log(session);
+  
   return (
     <div className="container">
-      <SuccessMessage />
+      <SuccessMessage session={session}/>
     </div>
   );
 }

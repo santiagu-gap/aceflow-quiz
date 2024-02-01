@@ -1,10 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { Session } from 'next-auth';
 
-const SuccessMessage = () => {
+const SuccessMessage = ({ session }: { session: Session | null }) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -16,6 +17,10 @@ const SuccessMessage = () => {
         addEmailToPremium(email);
       }
     }
+
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 2000);
   }, []);
 
   const addEmailToPremium = async (userEmail: string) => {
@@ -28,7 +33,8 @@ const SuccessMessage = () => {
   };
 
   const handleBackClick = () => {
-    router.push('/');
+    // router.push('/');
+    window.location.href = "/";
   };
 
   return (
