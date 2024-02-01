@@ -92,6 +92,8 @@ const QuizFrame = ({
               setCurrentQuestionIndex={setCurrentQuestionIndex}
               isCompleted={isCompleted}
               score={score}
+              showQA={showQA}
+              setShowQA={setShowQA}
             />
           ) : null}
         </div>

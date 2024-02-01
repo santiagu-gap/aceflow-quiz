@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 import Completed from '@/app/quiz/completed';
+import Link from 'next/link';
 
 type QuizQuestionProps = {
   question: string;
@@ -16,6 +17,8 @@ type QuizQuestionProps = {
   setCurrentQuestionIndex: (index: number) => void;
   isCompleted: boolean;
   score: number;
+  showQA: boolean;
+  setShowQA: (showQA: boolean) => void;
 };
 
 const QuizQuestion: React.FC<QuizQuestionProps> = ({
@@ -28,14 +31,15 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
   currentQuestionIndex,
   setCurrentQuestionIndex,
   isCompleted,
-  score
+  score,
+  showQA,
+  setShowQA
 }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showFeedback, setShowFeedback] = useState<boolean>(true);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   // const [questionNumber, setQuestionNumber] = useState<number>(0);
-
 
   console.log(questionsStatus);
 
@@ -69,22 +73,24 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
   //console.log(question);
 
   return (
-
     <div>
-      {isCompleted ? <Completed score={score}/> : (<div className="flex w-full flex-col items-center gap-6">
-      <h2 className=" text-center text-xl font-bold md:w-2/3 md:text-2xl">
-        {question}
-      </h2>
-      <div className="flex w-3/5 flex-col items-center gap-4">
-        {options?.map(option => (
-          <Button
-            key={option}
-            onClick={() => setSelectedOption(option)}
-            onFocus={() => setSelectedOption(option)}
-            variant={'outline'}
-            className={`w-full border-gray-300 py-6 disabled:opacity-100 ${
-              selectedOption === option
-                ? `ring-2 ring-primary 
+      {isCompleted ? (
+        <Completed score={score} />
+      ) : (
+        <div className="flex w-full flex-col items-center gap-6">
+          <h2 className=" text-center text-xl font-bold md:w-2/3 md:text-2xl">
+            {question}
+          </h2>
+          <div className="flex w-3/5 flex-col items-center gap-4">
+            {options?.map(option => (
+              <Button
+                key={option}
+                onClick={() => setSelectedOption(option)}
+                onFocus={() => setSelectedOption(option)}
+                variant={'outline'}
+                className={`w-full border-gray-300 py-6 disabled:opacity-100 ${
+                  selectedOption === option
+                    ? `ring-2 ring-primary 
                 ${
                   questionsStatus[currentQuestionIndex] !== null
                     ? `${
@@ -96,57 +102,66 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
                     : ''
                 }
               `
-                : ''
-            }`}
-            disabled={buttonDisabled}
-          >
-            {option}
-          </Button>
-        ))}
+                    : ''
+                }`}
+                disabled={buttonDisabled}
+              >
+                {option}
+              </Button>
+            ))}
 
-        {questionsStatus[currentQuestionIndex] === null ? (
-          <Button
-            onClick={submitAnswer}
-            disabled={selectedOption === null || buttonDisabled}
-            className={`w-min `}
-          >
-            Submit
-          </Button>
-        ) : (
-          <Button onClick={handleNext} variant={'secondary'}>
-            Next
-          </Button>
-        )}
-      </div>
+            {questionsStatus[currentQuestionIndex] === null ? (
+              <Button
+                onClick={submitAnswer}
+                disabled={selectedOption === null || buttonDisabled}
+                className={`w-min `}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button onClick={handleNext} variant={'secondary'}>
+                Next
+              </Button>
+            )}
+          </div>
+          
+          <div className="text-center">
+            {showQA ? '' : 'Stuck? '}
+            <button
+              onClick={() => setShowQA(!showQA)}
+              className="font-bold text-blue-500 underline"
+            >
+              {showQA ? 'Close AI tutor ' : 'Ask your AI tutor for help'}
+            </button>
+          </div>
 
-      <div className="mt-4 flex h-2 w-full gap-4 rounded-full md:w-1/2">
-        {questionsStatus.map((status, i) => (
-          <div
-            key={i}
-            onClick={() => {
-              if (status !== null) {
-                setCurrentQuestionIndex(i);
-              }
-            }}
-            className={`h-2 rounded-full ${
-              status === null
-                ? currentQuestionIndex === i
-                  ? 'bg-gray-500'
-                  : 'bg-gray-200'
-                : status == 'correct' && currentQuestionIndex !== i
-                  ? 'bg-green-500'
-                  : status == 'incorrect' && currentQuestionIndex !== i
-                    ? 'bg-red-500'
-                    : 'bg-gray-500'
-            } transition duration-200 ease-in-out hover:cursor-pointer hover:brightness-75`}
-            style={{ width: '33.33%' }}
-          />
-        ))}
-      </div>
-    </div>) }
+          <div className="mt-4 flex h-2 w-full gap-4 rounded-full md:w-1/2">
+            {questionsStatus.map((status, i) => (
+              <div
+                key={i}
+                onClick={() => {
+                  if (status !== null) {
+                    setCurrentQuestionIndex(i);
+                  }
+                }}
+                className={`h-2 rounded-full ${
+                  status === null
+                    ? currentQuestionIndex === i
+                      ? 'bg-gray-500'
+                      : 'bg-gray-200'
+                    : status == 'correct' && currentQuestionIndex !== i
+                      ? 'bg-green-500'
+                      : status == 'incorrect' && currentQuestionIndex !== i
+                        ? 'bg-red-500'
+                        : 'bg-gray-500'
+                } transition duration-200 ease-in-out hover:cursor-pointer hover:brightness-75`}
+                style={{ width: '33.33%' }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
-
-    
   );
 };
 
