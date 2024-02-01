@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 import Completed from '@/app/quiz/completed';
 import Link from 'next/link';
+import Chat from './chat-help';
 
 type QuizQuestionProps = {
   question: string;
@@ -77,7 +78,8 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
       {isCompleted ? (
         <Completed score={score} />
       ) : (
-        <div className="flex w-full flex-col items-center gap-6">
+        <div className="flex w-full flex-col lg:flex-row gap-12">
+          <div className='flex w-full flex-col items-center gap-6'>
           <h2 className=" text-center text-xl font-bold md:w-2/3 md:text-2xl">
             {question}
           </h2>
@@ -124,7 +126,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
               </Button>
             )}
           </div>
-          
+
           <div className="text-center">
             {showQA ? '' : 'Stuck? '}
             <button
@@ -159,6 +161,9 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
               />
             ))}
           </div>
+          </div>
+
+          {showQA && <Chat id={'id'} currentQuestion={question} />}
         </div>
       )}
     </div>

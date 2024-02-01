@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar session={null} fixed />
+      <Navbar session={null}  />
       <CoolBlur />
 
       <div className="pt-8">

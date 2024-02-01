@@ -62,7 +62,7 @@ export default function Chat({
   }, [messages]);
 
   return (
-    <Card className="relative">
+    <Card className="relative lg:w-full mb-10">
       <CardHeader>
         <CardTitle>Acebot</CardTitle>
         <CardDescription>Try asking Acebot a question.</CardDescription>

@@ -76,7 +76,7 @@ const QuizFrame = ({
           Help 🤔
         </Button>
       </div> */}
-      <div className={`grid grid-cols-3 gap-4 px-8 md:px-16`}>
+      <div className={`grid gap-4 px-8 md:px-16`}>
         <div
           className={`${showQA ? 'col-span-2' : 'col-span-3'} flex flex-col`}
         >
@@ -97,12 +97,7 @@ const QuizFrame = ({
             />
           ) : null}
         </div>
-        {showQA && (
-          <Chat
-            id={id}
-            currentQuestion={JSON.stringify(questions[currentQuestionIndex])}
-          />
-        )}
+        
       </div>
     </div>
   );
