@@ -5,11 +5,19 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
   try {
     // console.log("running POST /api/premium route with email:");
-    const { email } = await req.json();
+    const { email, customerId, subscriptionId, currentPeriodEnd, priceId } =
+      await req.json();
     // Update the user's plan to 'premium'
+    const period = new Date(currentPeriodEnd).toISOString();
     const updatedUser = await prisma.user.update({
       where: { email: email },
-      data: { plan: "premium" },
+      data: {
+        plan: "premium",
+        stripeCurrentPeriodEnd: period,
+        stripeCustomerId: customerId,
+        stripePriceId: priceId,
+        stripeSubscriptionId: subscriptionId,
+      },
     });
     return NextResponse.json(
       { message: "User plan updated to premium", user: updatedUser },

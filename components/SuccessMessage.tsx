@@ -9,24 +9,33 @@ const SuccessMessage = ({ session }: { session: Session | null }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const queryParams = new URLSearchParams(window.location.search);
-      const email = queryParams.get('email');
-      if (email) {
-        // console.log('Email:', email);
-        getStripeInfo(email);
-        //addEmailToPremium(email);
+    const fetchData = async () => {
+      if (typeof window !== 'undefined') {
+        const queryParams = new URLSearchParams(window.location.search);
+        const email = queryParams.get('email');
+        if (email) {
+          // console.log('Email:', email);
+          const stripeInfo = await getStripeInfo(email);
+          await addEmailToPremium(email, stripeInfo);
+        }
       }
-    }
 
-    // setTimeout(() => {
-    //   window.location.href = "/";
-    // }, 2000);
+      // setTimeout(() => {
+      //   window.location.href = "/";
+      // }, 2000);
+    };
+    fetchData();
   }, []);
 
-  const addEmailToPremium = async (userEmail: string) => {
+  const addEmailToPremium = async (userEmail: string, stripeInfo: any) => {
     try {
-      const response = await axios.post('/api/premium', { email: userEmail });
+      const response = await axios.post('/api/premium', {
+        email: userEmail,
+        customerId: stripeInfo.customerId,
+        subscriptionId: stripeInfo.subscriptionId,
+        currentPeriodEnd: stripeInfo.currentperiodend,
+        priceId: stripeInfo.priceId
+      });
       console.log('User updated to premium:', response.data);
     } catch (error) {
       console.error('Error updating user to premium:', error);
@@ -35,8 +44,11 @@ const SuccessMessage = ({ session }: { session: Session | null }) => {
 
   const getStripeInfo = async (userEmail: string) => {
     try {
-      const response = await axios.post('/api/validate_subscription', { email: userEmail });
-      console.log('User information:', response.data);
+      const response = await axios.post('/api/validate_subscription', {
+        email: userEmail
+      });
+      console.log('User information:', response.data.result);
+      return response.data.result;
     } catch (error) {
       console.error('Error fetching information:', error);
     }
@@ -44,7 +56,7 @@ const SuccessMessage = ({ session }: { session: Session | null }) => {
 
   const handleBackClick = () => {
     // router.push('/');
-    window.location.href = "/";
+    window.location.href = '/';
   };
 
   return (
