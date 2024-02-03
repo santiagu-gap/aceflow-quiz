@@ -14,13 +14,14 @@ const SuccessMessage = ({ session }: { session: Session | null }) => {
       const email = queryParams.get('email');
       if (email) {
         // console.log('Email:', email);
-        addEmailToPremium(email);
+        getStripeInfo(email);
+        //addEmailToPremium(email);
       }
     }
 
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 2000);
+    // setTimeout(() => {
+    //   window.location.href = "/";
+    // }, 2000);
   }, []);
 
   const addEmailToPremium = async (userEmail: string) => {
@@ -29,6 +30,15 @@ const SuccessMessage = ({ session }: { session: Session | null }) => {
       console.log('User updated to premium:', response.data);
     } catch (error) {
       console.error('Error updating user to premium:', error);
+    }
+  };
+
+  const getStripeInfo = async (userEmail: string) => {
+    try {
+      const response = await axios.post('/api/validate_subscription', { email: userEmail });
+      console.log('User information:', response.data);
+    } catch (error) {
+      console.error('Error fetching information:', error);
     }
   };
 
