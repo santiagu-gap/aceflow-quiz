@@ -24,6 +24,7 @@ export const authOptions: NextAuthOptions = {
         session.user.image = token.picture;
         session.user.username = token.username as string;
         session.user.createdDate = token.createdDate as string;
+        session.user.quizzesAnswered = token.quizzesAnswered as number;
       }
 
       return session;
@@ -47,6 +48,7 @@ export const authOptions: NextAuthOptions = {
         picture: dbUser.image,
         username: dbUser.username,
         createdDate: dbUser.createdDate,
+        quizzesAnswered: dbUser.quizzesAnswered,
       };
     },
   },

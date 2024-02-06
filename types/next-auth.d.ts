@@ -6,6 +6,7 @@ declare module "next-auth" {
     username: string;
     bio: string;
     createdDate: string;
+    quizzesAnswered: number;
   }
   interface Account extends AccountModel {}
 
@@ -23,5 +24,6 @@ declare module "next-auth" {
     bio: string;
     createdDate: string;
     picture: string;
+    quizzesAnswered: number;
   }
 }

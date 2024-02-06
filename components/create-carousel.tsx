@@ -45,6 +45,8 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
     setStep(step - 1);
   };
 
+  console.log("Quizzes Answered : " + session?.user.quizzesAnswered ?? 'session undefined');
+
   return (
     <div className="flex flex-col items-center">
       <div className="mb-8 mt-12 flex justify-center text-xl font-semibold leading-10 md:text-6xl">
@@ -62,19 +64,32 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
           >
             {session ? (
               <>
-                <Textarea
-                  className="h-36 w-full rounded-md border p-4"
-                  placeholder="What would you like to be quizzed on?"
-                  name="question"
-                  id="question"
-                  rows={10}
-                  value={question}
-                  onChange={e => setQuestion(e.target.value)}
-                />
-                <Button onClick={handleNextStep} className="mt-4">
-                  Next
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                {session.user.quizzesAnswered < 1 ? (
+                  <>
+                    <Textarea
+                      className="h-36 w-full rounded-md border p-4"
+                      placeholder="What would you like to be quizzed on?"
+                      name="question"
+                      id="question"
+                      rows={10}
+                      value={question}
+                      onChange={e => setQuestion(e.target.value)}
+                    />
+                    <Button onClick={handleNextStep} className="mt-4">
+                      Next
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </>
+                ) : (
+                  <div>
+                    {/* Display a message or alert for the user */}
+                    <p>
+                      Limit reached for free user. Please consider upgrading
+                      your account.
+                    </p>
+                    {/* You can also use a modal or another UI component to display this message */}
+                  </div>
+                )}
               </>
             ) : (
               <div className="flex flex-col items-center justify-center gap-8">

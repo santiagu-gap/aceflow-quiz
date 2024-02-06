@@ -159,9 +159,9 @@ const CreateForm = ({
       pulse: true
     });
 
-    console.log("Making API call to create quiz with data:", docs);
-    console.log("Userid is:", session?.user.id ?? 'defaultUserId');
-    console.log("Email is:", session?.user.email ?? 'defaltEmail');
+    // console.log("Making API call to create quiz with data:", docs);
+    // console.log("Userid is:", session?.user.id ?? 'defaultUserId');
+    // console.log("Email is:", session?.user.email ?? 'defaltEmail');
 
     try {
       const response = await axios.post(`/api/create`, {
@@ -177,7 +177,7 @@ const CreateForm = ({
       });
 
       const quizId = response.data.quiz.id;
-      // console.log("Data", response.data);
+      console.log('Data', response.data);
       setButtonStatus({
         text: 'Quiz created 🎉',
         disabled: true,
