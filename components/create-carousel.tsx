@@ -81,8 +81,10 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
                 <span className="text-3xl font-semibold text-primary">
                   Sign in to continue
                 </span>
-                <Link href={'/login'} className='mb-8'>
-                  <Button size={"lg"} className='scale-110'>Join Now</Button>
+                <Link href={'/login'} className="mb-8">
+                  <Button size={'lg'} className="scale-110">
+                    Join Now
+                  </Button>
                 </Link>
               </div>
             )}

@@ -4,24 +4,22 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    // console.log("running POST /api/premium route with email:");
-    const { email, customerId, subscriptionId, currentPeriodEnd, priceId } =
+    const { email} =
       await req.json();
-    // Update the user's plan to 'premium'
-    const period = new Date(currentPeriodEnd).toISOString();
+
+    // Increment the user's quizzesAnswered count
     const updatedUser = await prisma.user.update({
       where: { email: email },
       data: {
-        plan: "premium",
-        stripeCurrentPeriodEnd: period,
-        stripeCustomerId: customerId,
-        stripePriceId: priceId,
-        stripeSubscriptionId: subscriptionId,
+        quizzesAnswered: {
+          increment: 1, 
+        },
       },
     });
+
     console.log(updatedUser);
     return NextResponse.json(
-      { message: "User plan updated to premium", user: updatedUser },
+      { message: "User questions incemented by 1", user: updatedUser },
       { status: 200 }
     );
   } catch (error) {

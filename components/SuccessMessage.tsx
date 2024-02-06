@@ -20,9 +20,9 @@ const SuccessMessage = ({ session }: { session: Session | null }) => {
         }
       }
 
-      // setTimeout(() => {
-      //   window.location.href = "/";
-      // }, 2000);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
     };
     fetchData();
   }, []);

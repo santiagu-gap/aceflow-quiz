@@ -123,7 +123,7 @@ const CreateForm = ({
 
     const splitter = new RecursiveCharacterTextSplitter({
       chunkSize: 8000,
-      chunkOverlap: 250,
+      chunkOverlap: 250
     });
 
     const siteDocs = await splitter.createDocuments([siteText]);
@@ -133,16 +133,16 @@ const CreateForm = ({
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     // console.log('Session:', session);
-  
+
     if (!session || !session.user) {
       // console.log("No session or user found");
       return;
     }
-  
+
     e.preventDefault();
-  
+
     let docs: any = [];
-  
+
     if (selectedFileType === 'pdf') {
       docs = await getSources();
     } else if (selectedFileType === 'yt') {
@@ -152,15 +152,17 @@ const CreateForm = ({
     } else if (selectedFileType === 'url') {
       docs = await getUrlSources();
     }
-  
+
     setButtonStatus({
       text: 'Uploading...',
       disabled: true,
       pulse: true
     });
-  
-    // console.log("Making API call to create quiz with data:", docs);
-    // console.log("Userid is:", session?.user.id ?? 'defaultUserId');
+
+    console.log("Making API call to create quiz with data:", docs);
+    console.log("Userid is:", session?.user.id ?? 'defaultUserId');
+    console.log("Email is:", session?.user.email ?? 'defaltEmail');
+
     try {
       const response = await axios.post(`/api/create`, {
         data: {
@@ -169,7 +171,11 @@ const CreateForm = ({
           userId: session?.user.id ?? 'defaultUserId'
         }
       });
-  
+
+      await axios.post(`api/update_quiz_log`, {
+        email: session?.user.email
+      });
+
       const quizId = response.data.quiz.id;
       // console.log("Data", response.data);
       setButtonStatus({
@@ -187,7 +193,7 @@ const CreateForm = ({
         pulse: false
       });
     }
-  }  
+  }
 
   const ytMutation = useMutation({
     mutationFn: (link: string) => {
