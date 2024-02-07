@@ -25,6 +25,7 @@ export const authOptions: NextAuthOptions = {
         session.user.username = token.username as string;
         session.user.createdDate = token.createdDate as string;
         session.user.quizzesAnswered = token.quizzesAnswered as number;
+        session.user.tutorQuestions = token.tutorQuestions as number;
         session.user.plan = token.plan as string;
       }
 
@@ -50,6 +51,7 @@ export const authOptions: NextAuthOptions = {
         username: dbUser.username,
         createdDate: dbUser.createdDate,
         quizzesAnswered: dbUser.quizzesAnswered,
+        tutorQuestions: dbUser.tutorQuestions,
         plan: dbUser.plan,
       };
     },

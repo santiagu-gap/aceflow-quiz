@@ -48,6 +48,7 @@ model User {
   image                  String?
   username               String?   @unique
   quizzesAnswered        Int       @default(0)
+  tutorQuestions         Int       @default(0)
   createdDate            DateTime  @default(now())
   stripeCurrentPeriodEnd DateTime? @map("stripe_current_period_end")
   stripeCustomerId       String?   @unique @map("stripe_customer_id")
