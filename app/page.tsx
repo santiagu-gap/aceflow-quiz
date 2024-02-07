@@ -1,4 +1,4 @@
-'use client'
+/* eslint-disable @next/next/no-async-client-component */
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 import Link from "next/link";
