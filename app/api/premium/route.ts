@@ -17,7 +17,6 @@ export async function POST(req: Request) {
         stripeCustomerId: customerId,
         stripePriceId: priceId,
         stripeSubscriptionId: subscriptionId,
-        quizzesAnswered: 0,
       },
     });
     console.log(updatedUser);

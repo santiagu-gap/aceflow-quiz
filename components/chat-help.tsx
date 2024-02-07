@@ -29,7 +29,8 @@ export default function Chat({
   const [messageCapDetails, setMessageCapDetails] = useState({
     userId: '',
     quizzesAnswered: 0,
-    tutorQuestions: 0
+    tutorQuestions: 0,
+    plan : 'free'
   });
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
@@ -63,7 +64,8 @@ export default function Chat({
         setMessageCapDetails({
           userId: data.userId,
           quizzesAnswered: data.quizzesAnswered,
-          tutorQuestions: data.tutorQuestions
+          tutorQuestions: data.tutorQuestions,
+          plan: data.plan,
         });
         console.log('Fetched Message Cap Details:', data);
       } catch (error) {
@@ -93,6 +95,20 @@ export default function Chat({
   ) => {
     e.preventDefault();
     setIsThinking(true);
+
+    if (messageCapDetails.tutorQuestions >= 10 && messageCapDetails.plan !== 'premium') {
+      alert(
+        'You have reached the limit of tutor questions. Please upgrade to premium to continue.'
+      );
+      setIsThinking(false); 
+      return; 
+    }
+
+    setMessageCapDetails(prevState => ({
+      ...prevState,
+      tutorQuestions: prevState.tutorQuestions + 1
+    }));
+
     incrementTutorQuestions();
     handleSubmit(e, chatRequestOptions);
   };

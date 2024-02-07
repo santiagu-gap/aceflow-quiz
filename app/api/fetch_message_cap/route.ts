@@ -17,6 +17,7 @@ export async function POST(req: Request) {
           select: {
             quizzesAnswered: true,
             tutorQuestions: true,
+            plan: true,
           },
         },
       },
@@ -29,6 +30,7 @@ export async function POST(req: Request) {
             userId: quizWithUser.userId,
             quizzesAnswered: quizWithUser.user.quizzesAnswered,
             tutorQuestions: quizWithUser.user.tutorQuestions,
+            plan: quizWithUser.user.plan,
           },
         },
         { status: 200 }
