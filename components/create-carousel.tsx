@@ -64,8 +64,23 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
           >
             {session ? (
               <>
-                {session.user.quizzesAnswered < 1 ? (
-                  <>
+              <div>
+              <Textarea
+                      className="h-36 w-full rounded-md border p-4"
+                      placeholder="What would you like to be quizzed on?"
+                      name="question"
+                      id="question"
+                      rows={10}
+                      value={question}
+                      onChange={e => setQuestion(e.target.value)}
+                    />
+                    <Button onClick={handleNextStep} className="mt-4">
+                      Next
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+              </div>
+                {/* {session.user.quizzesAnswered < 1 ? ( */}
+                  {/* <>
                     <Textarea
                       className="h-36 w-full rounded-md border p-4"
                       placeholder="What would you like to be quizzed on?"
@@ -79,17 +94,17 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
                       Next
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
-                  </>
-                ) : (
-                  <div>
+                  </> */}
+                {/* ) : ( */}
+                  {/* <div> */}
                     {/* Display a message or alert for the user */}
-                    <p>
-                      Limit reached for free user. Please consider upgrading
-                      your account.
-                    </p>
+                    {/* <p> */}
+                      {/* Limit reached for free user. Please consider upgrading */}
+                      {/* your account. */}
+                    {/* </p> */}
                     {/* You can also use a modal or another UI component to display this message */}
-                  </div>
-                )}
+                  {/* </div> */}
+                {/* )} */}
               </>
             ) : (
               <div className="flex flex-col items-center justify-center gap-8">
