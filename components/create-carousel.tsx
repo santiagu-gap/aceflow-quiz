@@ -45,10 +45,10 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
     setStep(step - 1);
   };
 
-  console.log(
-    'Quizzes Answered : ' + session?.user.quizzesAnswered ?? 'session undefined'
-  );
-  console.log('Plan : ' + session?.user.plan ?? 'session undefined');
+  // console.log(
+  //   'Quizzes Answered : ' + session?.user.quizzesAnswered ?? 'session undefined'
+  // );
+  // console.log('Plan : ' + session?.user.plan ?? 'session undefined');
 
   return (
     <div className="flex flex-col items-center">

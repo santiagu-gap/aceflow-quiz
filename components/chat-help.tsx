@@ -31,7 +31,7 @@ export default function Chat({
     api: '/api/chat',
     body: {
       id: id,
-      question: currentQuestion
+      currentQuestion: currentQuestion // Include currentQuestion in the body
     },
     onError: err => {
       console.log(err);
@@ -49,7 +49,7 @@ export default function Chat({
 
   const handleThinking = (
     e: FormEvent<HTMLFormElement>,
-    chatRequestOptions?: ChatRequestOptions | undefined
+    chatRequestOptions?: ChatRequestOptions
   ) => {
     setIsThinking(true);
     handleSubmit(e, chatRequestOptions);
@@ -67,8 +67,8 @@ export default function Chat({
         <CardTitle>Acebot</CardTitle>
         <CardDescription>Try asking Acebot a question.</CardDescription>
       </CardHeader>
-      <CardContent className="relative w-full overflow-y-scroll h-[50vh]">
-        <div className={`flex w-full flex-col gap-5 pb-8 h-full`}>
+      <CardContent className="relative h-[50vh] w-full overflow-y-scroll">
+        <div className={`flex h-full w-full flex-col gap-5 pb-8`}>
           {messages.map(message => (
             <div
               ref={
