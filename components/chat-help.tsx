@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle
 } from './ui/card';
+import axios from 'axios';
 
 export default function Chat({
   id,
@@ -25,13 +26,18 @@ export default function Chat({
 }) {
   const [isThinking, setIsThinking] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [messageCapDetails, setMessageCapDetails] = useState({
+    userId: '',
+    quizzesAnswered: 0,
+    tutorQuestions: 0
+  });
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
   const { messages, input, handleInputChange, handleSubmit, stop } = useChat({
     api: '/api/chat',
     body: {
       id: id,
-      currentQuestion: currentQuestion // Include currentQuestion in the body
+      currentQuestion: currentQuestion
     },
     onError: err => {
       console.log(err);
@@ -47,11 +53,47 @@ export default function Chat({
     }
   });
 
+  useEffect(() => {
+    const fetchMessageCapDetails = async () => {
+      try {
+        const response = await axios.post('/api/fetch_message_cap', {
+          quizId: id
+        });
+        const data = response.data.response;
+        setMessageCapDetails({
+          userId: data.userId,
+          quizzesAnswered: data.quizzesAnswered,
+          tutorQuestions: data.tutorQuestions
+        });
+        console.log('Fetched Message Cap Details:', data);
+      } catch (error) {
+        console.error('Error fetching message cap details:', error);
+      }
+    };
+    fetchMessageCapDetails();
+  }, []);
+
+  // console.log(messageCapDetails);
+
+  const incrementTutorQuestions = async () => {
+    if (messageCapDetails.userId) {
+      try {
+        await axios.post(`/api/update_tutor_log`, {
+          id: messageCapDetails.userId
+        });
+      } catch (error) {
+        console.error('Error incrementing tutor questions:', error);
+      }
+    }
+  };
+
   const handleThinking = (
     e: FormEvent<HTMLFormElement>,
     chatRequestOptions?: ChatRequestOptions
   ) => {
+    e.preventDefault();
     setIsThinking(true);
+    incrementTutorQuestions();
     handleSubmit(e, chatRequestOptions);
   };
 
