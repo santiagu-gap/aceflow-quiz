@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
-// import Completed from '@/app/quiz/completed';
 import Link from 'next/link';
 import Chat from './chat-help';
+import Completed from '@/app/quiz/[id]/completed';
 
 type QuizQuestionProps = {
   question: string;
