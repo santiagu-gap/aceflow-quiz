@@ -120,13 +120,13 @@ export default function Chat({
   }, [messages]);
 
   return (
-    <Card className="relative">
+    <Card className="relative lg:w-full mb-10">
       <CardHeader>
         <CardTitle>Acebot</CardTitle>
         <CardDescription>Try asking Acebot a question.</CardDescription>
       </CardHeader>
-      <CardContent className="relative h-[50vh] w-full overflow-y-scroll">
-        <div className={`flex h-full w-full flex-col gap-5 pb-8`}>
+      <CardContent className="relative w-full overflow-y-scroll h-[50vh]">
+        <div className={`flex w-full flex-col gap-5 pb-8 h-full`}>
           {messages.map(message => (
             <div
               ref={
