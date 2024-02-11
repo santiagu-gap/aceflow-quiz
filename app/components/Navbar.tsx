@@ -18,13 +18,13 @@ const Navbar = ({ session }: { session: Session | null }) => {
 
   const handleBackClick = () => {
     // router.push('/');
-    window.location.href = "/";
+    window.location.href = "/pro";
   };
 
   return (
     <div className="w-full">
       <nav className="flex items-center justify-between px-6 py-6">
-        <Link href={"/create"}>
+        <Link href={"/"}>
           <div className="text-2xl font-bold md:text-4xl">
             Ace
             <span className="text-primary">flow</span>
