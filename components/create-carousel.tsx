@@ -67,7 +67,7 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
           >
             {session ? (
               <>
-                {session.user.quizzesAnswered < 15 ||
+                {session.user.quizzesAnswered < 16 ||
                 session.user.plan === 'premium' ? (
                   <>
                     <Textarea
@@ -155,55 +155,6 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
                   </TabsList>
                 </Tabs>
               </div>
-            {/* {session ? (
-              <div className="flex flex-row items-center">
-                <Tabs defaultValue="pdf">
-                  <TabsList className="h-56 w-[85vw]">
-                    {fileTypes.map(type => (
-                      <TabsTrigger
-                        key={type.id}
-                        value={type.id}
-                        onClick={() => setSelectedFileType(type.id)}
-                        className={`flex h-full w-full flex-col items-center justify-center gap-6 transition duration-500 ${type.id !== selectedFileType ? 'grayscale' : ''
-                          }`}
-                        style={{
-                          filter:
-                            type.id !== selectedFileType
-                              ? 'grayscale(100%)'
-                              : 'none'
-                        }}
-                      >
-                        <Image
-                          src={type.icon}
-                          alt={type.name}
-                          width={64}
-                          height={64}
-                          className="select-none"
-                          draggable={false}
-                        />
-                        <div className="flex flex-col items-center justify-center gap-2">
-                          <span className="text-2xl font-semibold">
-                            {type.name}
-                          </span>
-                          <span className="text-sm text-muted-foreground">
-                            {type.description}
-                          </span>
-                        </div>
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </Tabs>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center gap-8">
-                <span className="text-3xl font-semibold text-primary">
-                  Sign in to continue
-                </span>
-                <Link href={'/login'} className='mb-8'>
-                  <Button size={"lg"} className='scale-110'>Join Now</Button>
-                </Link>
-              </div>
-            )} */}
 
             <div className="mt-8 flex justify-center gap-4">
               <Button onClick={handlePreviousStep} variant="secondary">

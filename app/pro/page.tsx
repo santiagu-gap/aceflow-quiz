@@ -1,13 +1,15 @@
+/* eslint-disable @next/next/no-async-client-component */
 "use client";
 import { useRouter } from "next/navigation";
 import { FaCheck } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import CoolBlur from "@/components/cool-blur";
 import axios from "axios";
+import { getAuthSession } from "@/lib/auth";
 
-export default function Home() {
+export default async function Home() {
   const router = useRouter();
-  const session = null; //await getAuthSession();
+  const session = await getAuthSession();
 
   const handleSubmit = async (
     e: React.FormEvent,
@@ -26,7 +28,7 @@ export default function Home() {
   //-------------------------------------
   return (
     <div>
-      <Navbar session={null} />
+      <Navbar session={session} />
       <CoolBlur />
 
       <div className="mx-6 grid items-center justify-center mt-4 gap-8 ">
