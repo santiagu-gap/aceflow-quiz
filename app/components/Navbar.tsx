@@ -11,22 +11,27 @@ import { Session } from "next-auth";
 import Link from "next/link";
 // import { getMembershipType } from '@/util/users';
 
-const Navbar = ({ session, fixed, bg }: { session: Session | null, fixed?: boolean, bg?: boolean }) => {
+const Navbar = ({ session }: { session: Session | null }) => {
   const router = useRouter();
 
   const [membershipType, setMembershipType] = useState("free");
 
+  const handleBackClick = () => {
+    // router.push('/');
+    window.location.href = "/";
+  };
+
   return (
-    <div className={`${fixed ? 'fixed':""} ${bg ? 'dark:bg-background/90 bg-background/95':""} w-full `}>
-      <nav className="flex items-center justify-between md:px-6 py-6">
-        <Link href={"/"}>
-          <div className="text-2xl opacity-0 md:opacity-100 font-bold md:text-4xl">
+    <div className="w-full">
+      <nav className="flex items-center justify-between px-6 py-6">
+        <Link href={"/create"}>
+          <div className="text-2xl font-bold md:text-4xl">
             Ace
             <span className="text-primary">flow</span>
           </div>
         </Link>
 
-        <div className="absolute flex justify-around w-full inline-flex md:w-auto md:gap-4 md:relative md:flex-none md:justify-normal ">
+        <div className="absolute opacity-0 md:relative md:opacity-100 inline-flex gap-4">
           {membershipType === "pro" ? (
             <Button
               onClick={() => {
@@ -38,18 +43,12 @@ const Navbar = ({ session, fixed, bg }: { session: Session | null, fixed?: boole
               Imagine ✨
             </Button>
           ) : (
-            <Button
-              onClick={() => {
-                router.push(`/pro`);
-              }}
-              size={"sm"}
-            >
+            <Button onClick={handleBackClick} size={"sm"}>
               Try Aceflow Pro+
             </Button>
           )}
           <AvatarDropdown session={session} />
         </div>
-
       </nav>
     </div>
   );
