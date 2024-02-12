@@ -30,7 +30,7 @@ export default function Chat({
     userId: '',
     quizzesAnswered: 0,
     tutorQuestions: 0,
-    plan : 'free'
+    plan: 'free'
   });
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
@@ -65,7 +65,7 @@ export default function Chat({
           userId: data.userId,
           quizzesAnswered: data.quizzesAnswered,
           tutorQuestions: data.tutorQuestions,
-          plan: data.plan,
+          plan: data.plan
         });
         console.log('Fetched Message Cap Details:', data);
       } catch (error) {
@@ -96,12 +96,15 @@ export default function Chat({
     e.preventDefault();
     setIsThinking(true);
 
-    if (messageCapDetails.tutorQuestions >= 10 && messageCapDetails.plan !== 'premium') {
+    if (
+      messageCapDetails.tutorQuestions >= 5 &&
+      messageCapDetails.plan !== 'premium'
+    ) {
       alert(
         'You have reached the limit of tutor questions. Please upgrade to premium to continue.'
       );
-      setIsThinking(false); 
-      return; 
+      setIsThinking(false);
+      return;
     }
 
     setMessageCapDetails(prevState => ({
@@ -120,13 +123,13 @@ export default function Chat({
   }, [messages]);
 
   return (
-    <Card className="relative lg:w-full mb-10">
+    <Card className="relative mb-10 lg:w-full">
       <CardHeader>
         <CardTitle>Acebot</CardTitle>
         <CardDescription>Try asking Acebot a question.</CardDescription>
       </CardHeader>
-      <CardContent className="relative w-full overflow-y-scroll h-[50vh]">
-        <div className={`flex w-full flex-col gap-5 pb-8 h-full`}>
+      <CardContent className="relative h-[50vh] w-full overflow-y-scroll">
+        <div className={`flex h-full w-full flex-col gap-5 pb-8`}>
           {messages.map(message => (
             <div
               ref={
@@ -154,8 +157,10 @@ export default function Chat({
             </div>
           ))}
         </div>
+      </CardContent>
+      <CardContent>
         <form
-          className="sticky bottom-0 z-20 flex w-full flex-row justify-between gap-4"
+          className="sticky bottom-0 z-20 flex w-full flex-row justify-between gap-4 mt-4"
           onSubmit={handleThinking}
         >
           <Input
