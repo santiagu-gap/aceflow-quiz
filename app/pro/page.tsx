@@ -9,7 +9,6 @@ import { getAuthSession } from "@/lib/auth";
 
 export default async function Home() {
   const router = useRouter();
-  const session = await getAuthSession();
 
   const handleSubmit = async (
     e: React.FormEvent,
@@ -28,7 +27,7 @@ export default async function Home() {
   //-------------------------------------
   return (
     <div>
-      <Navbar session={session} />
+      <Navbar session={null} />
       <CoolBlur />
 
       <div className="mx-6 grid items-center justify-center mt-4 gap-8 ">
