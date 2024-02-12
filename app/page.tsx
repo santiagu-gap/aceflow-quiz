@@ -11,7 +11,7 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
+  CardHeader, 
   CardTitle,
 } from "@/components/ui/card";
 import addEmailToPremium from "../util/updateNeon";
@@ -50,9 +50,9 @@ export default async function Home() {
             ace your quizzes, tests, and exams.
           </div>
 
-          {/* <Link href={session?.user?.id !== null ? `/create` : `/login`}>
+          <Link href={session?.user?.id !== null ? `/create` : `/login`}>
             <Button size={"lg"}>Start Learning</Button>
-          </Link> */}
+          </Link>
         </div>
       </div>
     </div>
