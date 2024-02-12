@@ -18,6 +18,7 @@ export async function POST(req: Request) {
     });
 
     console.log(updatedUser);
+    console.log("User questions incemented by 1");
     return NextResponse.json(
       { message: "User questions incemented by 1", user: updatedUser },
       { status: 200 }

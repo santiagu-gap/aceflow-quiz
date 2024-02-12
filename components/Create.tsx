@@ -48,6 +48,18 @@ const CreateForm = ({
   const router = useRouter();
   const { toast } = useToast();
 
+  const checkUrl = function(urlLink: String) {
+    let newUrl = urlLink.trim();
+    if (newUrl !== '') {
+      if (!newUrl.includes('http://') && !newUrl.includes('https://')) {
+        // If http:// or https:// is not included, prepend http://
+        newUrl = 'http://' + newUrl;
+      }
+    }
+    setUrlLink(newUrl);
+    return newUrl;
+  }
+
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       try {
@@ -117,7 +129,7 @@ const CreateForm = ({
   }
 
   async function getUrlSources() {
-    const siteText = await scrapeSite([urlLink]);
+    const siteText = await scrapeSite([checkUrl(urlLink)]);
 
     // console.log(siteText);
 
@@ -172,10 +184,6 @@ const CreateForm = ({
         }
       });
 
-      await axios.post(`api/update_quiz_log`, {
-        email: session?.user.email
-      });
-
       const quizId = response.data.quiz.id;
       console.log('Data', response.data);
       setButtonStatus({
@@ -184,6 +192,9 @@ const CreateForm = ({
         pulse: false
       });
       // console.log('Success receiving data');
+      await axios.post(`api/update_quiz_log`, {
+        email: session?.user.email
+      });
       router.push(`/quiz/${quizId}`);
     } catch (err) {
       console.error('Error creating quiz', err);
