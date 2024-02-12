@@ -37,7 +37,7 @@ export default async function Home() {
         </div>
 
         <Image
-            src={"/A+final.png"}
+            src={"/a+final.png"}
             height={100}
             width={100}
             alt=""
