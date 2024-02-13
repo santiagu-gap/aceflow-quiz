@@ -36,6 +36,9 @@ export const metadata: Metadata = {
   description: "Ace your next test",
   icons: {
     icon: "/favicon.ico",
+  },
+  verification: {
+    google: "xaETLrHNownWZHNJj3ts6JCVpZp8S6AH8FvOIGVQHhE"
   }
 };
 
