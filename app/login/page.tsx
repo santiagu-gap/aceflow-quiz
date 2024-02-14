@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-b from-primary to-pink-600 text-secondary-foreground">
-      <Navbar session={session} bg/>
+      <Navbar session={session} bg />
       <div className="relative flex flex-col flex-grow w-screen md:w-full md:flex-row">
         <div className="px-4 py-20 md:px-10 md:py-40 md:w-[35%] text-white">
           <h1 className="text-center text-2xl font-semibold md:text-3xl lg:text-4xl">
@@ -19,7 +19,8 @@ export default async function Home() {
           </h1>
         </div>
 
-        <div className="
+        <div
+          className="
           rounded-t-[3rem] flex-grow
           flex flex-col items-center justify-center
           dark:bg-background/90 bg-background/95 text-secondary-foreground
@@ -36,8 +37,17 @@ export default async function Home() {
             Your next journey starts <span className="text-primary">here</span>
           </div>
 
-          <div className="inline-flex justify-center px-24 w-full">
+          <div className="inline-flex justify-center px-24 w-full flex-col gap-4 items-center">
             {session?.user ? <LogoutButton /> : <LoginButton />}
+            <div>
+            Through signing up for Aceflow, you&apos;re agreeing to our{" "}
+            <a
+              className="font-bold"
+              href="https://www.termsfeed.com/live/9d023795-96b2-4140-ab8e-4d9b000fb4ef"
+            >
+              privacy policy
+            </a>
+          </div>
           </div>
         </div>
       </div>
