@@ -46,8 +46,8 @@ export default async function Home() {
 
         <div className="space-y-4 md:space-y-12 text-center flex flex-col">
           <div className="text-sm font-semibold md:text-xl lg:px-[20%]">
-            Create infinite practice questions from your own study material to
-            ace your quizzes, tests, and exams.
+          Turn your study material into practice questions with our AI tool 
+          to ace your quizzes, tests, and exams.
           </div>
 
           <Link href={session?.user?.id !== null ? `/create` : `/login`}>
