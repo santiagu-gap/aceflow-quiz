@@ -11,12 +11,11 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader, 
+  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import addEmailToPremium from "../util/updateNeon";
 import { Session } from "next-auth";
-
 
 export default async function Home() {
   let session: Session | null = await getAuthSession();
@@ -37,22 +36,30 @@ export default async function Home() {
         </div>
 
         <Image
-            src={"/a+final.png"}
-            height={100}
-            width={100}
-            alt=""
-            className="h-36 w-40 md:h-56 md:w-60 xl:h-64 xl:w-72"
-          />
+          src={"/a+final.png"}
+          height={100}
+          width={100}
+          alt=""
+          className="h-36 w-40 md:h-56 md:w-60 xl:h-64 xl:w-72"
+        />
 
         <div className="space-y-4 md:space-y-12 text-center flex flex-col">
           <div className="text-sm font-semibold md:text-xl lg:px-[20%]">
-          Turn your study material into practice questions with our AI tool 
-          to ace your quizzes, tests, and exams.
+            Turn your study material into practice questions with our AI tool to
+            ace your quizzes, tests, and exams.
           </div>
 
-          <Link href={session?.user?.id !== null ? `/create` : `/login`}>
-            <Button size={"lg"}>Start Learning</Button>
-          </Link>
+          <div className="flex flex-col items-center gap-4">
+            <Link href={session?.user?.id !== null ? `/create` : `/login`}>
+              <Button size={"lg"}>Start Learning</Button>
+            </Link>
+
+            <a
+              href="https://www.termsfeed.com/live/9d023795-96b2-4140-ab8e-4d9b000fb4ef"
+            >
+              Privacy policy
+            </a>
+          </div>
         </div>
       </div>
     </div>
