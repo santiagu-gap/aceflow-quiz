@@ -41,9 +41,10 @@ export default async function Home() {
             {session?.user ? <LogoutButton /> : <LoginButton />}
             <div>
             Through signing up for Aceflow, you&apos;re agreeing to our{" "}
+
             <a
               className="font-bold"
-              href="https://www.termsfeed.com/live/9d023795-96b2-4140-ab8e-4d9b000fb4ef"
+              href="/privacy"
             >
               privacy policy
             </a>
