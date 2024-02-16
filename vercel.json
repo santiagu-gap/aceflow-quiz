@@ -1,7 +1,14 @@
 {
-    "functions": {
-        "pages/api/*.ts": {
-          "maxDuration": 300
-        }
-      }
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next",
+      "config": { "npmInstallFlags": "--force" }
+    }
+  ],
+  "functions": {
+    "pages/api/*.ts": {
+      "maxDuration": 300
+    }
   }
+}
