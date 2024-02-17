@@ -4,7 +4,7 @@ import QuizFrame from "@/components/quiz";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Question } from "@/types";
-import Loading from "./loading";
+// import Loading from "./loading";
 // import { getSentMessagesTutor } from "@/util/users";
 
 async function getQuiz(id: string) {
@@ -38,8 +38,9 @@ const Quiz = async ({
       <CoolBlur />
 
       <div className="pt-8">
-        {questions ? <QuizFrame questions={questions} id={params?.id} />
-        :<Loading />}
+      <QuizFrame questions={questions} id={params?.id} />
+        {/* {questions ?  />
+        :<Loading />} */}
       </div>
     </div>
   );

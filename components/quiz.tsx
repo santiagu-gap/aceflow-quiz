@@ -31,21 +31,16 @@ const QuizFrame = ({
   console.log(jsonQuestions);
   const questions = JSON.parse(jsonQuestions)?.questions || [];
 
-  // let questions = [];
-
-  // try {
-  //   questions = JSON.parse(jsonQuestions)?.questions;
-  //   toast.success('hi!');
-  // } catch (error: any) {
-  //   if (error.message.startsWith('Unterminated string in JSON at position')) {
-  //     console.warn('JSON issue!');
-  //     toast.error(
-  //       'There has been an error generating your quiz. Please make another quiz.'
-  //     );
-  //   }
-  //   toast.success('hi!');
-  //   console.log(error.message);
-  // }
+  let notEnoughQuestions = null;
+  
+  try {
+    notEnoughQuestions = JSON.parse(jsonQuestions);
+  } catch (error: any) {
+    if (error.message.startsWith('Unterminated string in JSON at position')) {
+      
+    }
+    console.log(error.message);
+  }
 
   const [questionsStatus, setQuestionsStatus] = useState(
     Array(questions.length).fill(null)
@@ -84,6 +79,7 @@ const QuizFrame = ({
       {questions.length === 0 ? (
         <div className="flex flex-col items-center gap-4 text-center">
           There was an error generating your quiz. Please make another one.{' '}
+          {notEnoughQuestions && <div>Make sure the content you provide is big enough for 10 questions to be generated.</div>}
           <Button
             onClick={() => {
               router.push(`/create`);
