@@ -32,7 +32,7 @@ const ProPage = ({ session }: { session: Session | null }) => {
   //-------------------------------------
   return (
     <div>
-      <Navbar session={null} />
+      <Navbar />
       <CoolBlur />
 
       <div className="mx-6 mt-4 grid items-center justify-center gap-8 ">
