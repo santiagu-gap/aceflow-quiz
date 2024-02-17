@@ -14,7 +14,7 @@ export default function Homepage() {
 
   return (
     <div>
-      <Navbar session={session} />
+      <Navbar />
       <div className="grid h-fit items-center justify-center gap-8 px-6 pb-20 pt-10 md:mx-32 md:pt-16">
         <div className="space-y-2 text-center">
           <div className="text-xs font-light lg:text-lg">

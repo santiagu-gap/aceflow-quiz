@@ -26,7 +26,7 @@ export default function Home() {
     <div>
       <Navbar fixed={true} />
       <CoolBlur />
-      <div className="flex flex-col h-svh items-center justify-evenly px-6 pb-10 pt-20 pt-10 md:mx-32 md:pt-28">
+      <div className="flex flex-col h-svh items-center justify-evenly px-6 pb-10 pt-20 md:mx-32 md:pt-28">
         <div className="space-y-2 text-center">
           <div className="text-2xl font-bold md:text-4xl lg:text-6xl">
             <span>Ace Your Next Test With </span> <br />
