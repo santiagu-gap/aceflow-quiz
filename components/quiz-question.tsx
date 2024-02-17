@@ -42,7 +42,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   // const [questionNumber, setQuestionNumber] = useState<number>(0);
 
-  console.log(questionsStatus);
+  // console.log(questionsStatus);
 
   const handleNext = () => {
     setSelectedOption(null);
@@ -61,8 +61,8 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({
   };
 
   const submitAnswer = () => {
-    console.log(questionsStatus);
-    console.log(questionsStatus[currentQuestionIndex]);
+    // console.log(questionsStatus);
+    // console.log(questionsStatus[currentQuestionIndex]);
     setIsCorrect(selectedOption === correctAnswer);
     correctTheAnswer(
       selectedOption === correctAnswer ? 'correct' : 'incorrect'
