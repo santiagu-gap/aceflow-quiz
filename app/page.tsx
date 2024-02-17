@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-async-client-component */
+'use client';
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 import Link from "next/link";
@@ -16,9 +17,10 @@ import {
 } from "@/components/ui/card";
 import addEmailToPremium from "../util/updateNeon";
 import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 
-export default async function Home() {
-  let session: Session | null = await getAuthSession();
+export default function Home() {
+  const { data: session } = useSession();  // get the client session
 
   return (
     <div>
@@ -54,9 +56,7 @@ export default async function Home() {
               <Button size={"lg"}>Start Learning</Button>
             </Link>
 
-            <a
-              href="https://www.termsfeed.com/live/9d023795-96b2-4140-ab8e-4d9b000fb4ef"
-            >
+            <a href="https://www.termsfeed.com/live/9d023795-96b2-4140-ab8e-4d9b000fb4ef">
               Privacy policy
             </a>
           </div>

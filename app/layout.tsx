@@ -6,6 +6,8 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Providers from "@/utils/providers";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import SessionProvider from "@/app/providers/SessionProvider";
+import { Session } from "next-auth";
 
 // const myFont = localFont({
 //   src: [
@@ -38,8 +40,8 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
   verification: {
-    google: "xaETLrHNownWZHNJj3ts6JCVpZp8S6AH8FvOIGVQHhE"
-  }
+    google: "xaETLrHNownWZHNJj3ts6JCVpZp8S6AH8FvOIGVQHhE",
+  },
 };
 
 export const viewport: Viewport = {
@@ -54,12 +56,15 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  let session: Session | null = await getAuthSession();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={myFont.className}>
-        <Providers>{children}</Providers>
-        <Toaster />
+        <SessionProvider session={session}>
+            <Providers> {children}</Providers>
+          <Toaster />
+        </SessionProvider>
       </body>
     </html>
   );
