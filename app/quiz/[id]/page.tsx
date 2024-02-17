@@ -34,7 +34,7 @@ const Quiz = async ({
 
   return (
     <div>
-      <Navbar session={session} />
+      <Navbar />
       <CoolBlur />
 
       <div className="pt-8">

@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-b from-primary to-pink-600 text-secondary-foreground">
-      <Navbar session={session} bg />
+      <Navbar bg />
       <div className="relative flex flex-col flex-grow w-screen md:w-full md:flex-row">
         <div className="px-4 py-20 md:px-10 md:py-40 md:w-[35%] text-white">
           <h1 className="text-center text-2xl font-semibold md:text-3xl lg:text-4xl">

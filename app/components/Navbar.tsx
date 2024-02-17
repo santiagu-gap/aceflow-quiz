@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ModeToggle";
 import { AvatarDropdown } from "@/components/avatar-dropdown";
-import { getAuthSession } from "@/lib/auth";
-import { Session } from "next-auth";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 // import { getMembershipType } from '@/util/users';
 
-const Navbar = ({ session, fixed, bg }: { session: Session | null, fixed?: boolean, bg?: boolean }) => {
+const Navbar = ({fixed, bg }: { fixed?: boolean, bg?: boolean }) => {
+  const { data: session } = useSession();  // get the client session
   const router = useRouter();
 
   const [membershipType, setMembershipType] = useState("free");

@@ -27,7 +27,7 @@ export default async function Home() {
   //-------------------------------------
   return (
     <div>
-      <Navbar session={null} />
+      <Navbar />
       <CoolBlur />
 
       <div className="mx-6 grid items-center justify-center mt-4 gap-8 ">
