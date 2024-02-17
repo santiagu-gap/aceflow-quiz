@@ -1,14 +1,24 @@
 /* eslint-disable @next/next/no-async-client-component */
 "use client";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { FaCheck } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import CoolBlur from "@/components/cool-blur";
 import axios from "axios";
 import { getAuthSession } from "@/lib/auth";
+import { useSession } from "next-auth/react";
 
-export default async function Home() {
+export default function Home() {
   const router = useRouter();
+
+  const session = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/login');
+    },
+  });
+
+  console.log(session.data?.user.email);
 
   const handleSubmit = async (
     e: React.FormEvent,
@@ -89,7 +99,7 @@ export default async function Home() {
                     handleSubmit(
                       e,
                       "/api/checkout_sessions",
-                      "zakirangwala@gmail.com"
+                      session.data?.user.email as string
                     )
                   }
                   className="mt-4 w-[70%] rounded-xl bg-primary px-1 py-3 text-xl font-bold text-white hover:bg-primary/90 md:w-[55%] md:py-6 md:text-4xl"
