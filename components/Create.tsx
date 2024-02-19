@@ -48,7 +48,7 @@ const CreateForm = ({
   const router = useRouter();
   const { toast } = useToast();
 
-  const checkUrl = function(urlLink: String) {
+  const checkUrl = function (urlLink: String) {
     let newUrl = urlLink.trim();
     if (newUrl !== '') {
       if (!newUrl.includes('http://') && !newUrl.includes('https://')) {
@@ -58,7 +58,7 @@ const CreateForm = ({
     }
     setUrlLink(newUrl);
     return newUrl;
-  }
+  };
 
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -96,7 +96,7 @@ const CreateForm = ({
       }
     });
 
-    // console.log(transcript.data);
+    // console.log(transcript);
 
     return transcript.data.docs;
   };
@@ -185,7 +185,8 @@ const CreateForm = ({
       });
 
       const quizId = response.data.quiz.id;
-      console.log('Data', response.data);
+      // console.log('Data', response.data);
+      // console.log('Questions', response.data.quiz.questions);
       setButtonStatus({
         text: 'Quiz created 🎉',
         disabled: true,
@@ -216,7 +217,7 @@ const CreateForm = ({
             link: link
           }
         })
-        .then(response => response.data.basic_info);
+        .then(response => response.data.data.basic_info);
     },
     onError: () => {
       toast({

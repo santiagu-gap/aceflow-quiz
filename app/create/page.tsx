@@ -44,7 +44,7 @@ const Create = async () => {
 
   return (
     <div>
-      <Navbar session={session} />
+      <Navbar />
       <CoolBlur />
 
       <div className="text-center">

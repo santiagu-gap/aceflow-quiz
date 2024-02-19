@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-const stripe = require("stripe")(process.env.NEXT_PUBLIC_STRIPE_SECRET);
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 export async function POST(req: Request) {
   try {
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
       allow_promotion_codes: true,
       line_items: [
         {
-          price: process.env.NEXT_PUBLIC_STRIPE_PRICING_ID,
+          price: process.env.STRIPE_PRICING_ID,
           quantity: 1,
         },
       ],

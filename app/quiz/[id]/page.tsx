@@ -4,6 +4,7 @@ import QuizFrame from "@/components/quiz";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Question } from "@/types";
+// import Loading from "./loading";
 // import { getSentMessagesTutor } from "@/util/users";
 
 async function getQuiz(id: string) {
@@ -29,16 +30,17 @@ const Quiz = async ({
 
   const questions = quiz?.questions;
 
-  const session = await getAuthSession();
-  // console.log(questions);
+  console.log(questions);
 
   return (
     <div>
-      <Navbar session={session} />
+      <Navbar />
       <CoolBlur />
 
       <div className="pt-8">
-        <QuizFrame questions={questions} id={params?.id} />
+      <QuizFrame questions={questions} id={params?.id} />
+        {/* {questions ?  />
+        :<Loading />} */}
       </div>
     </div>
   );

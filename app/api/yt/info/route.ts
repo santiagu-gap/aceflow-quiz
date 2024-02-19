@@ -9,17 +9,23 @@ function youtube_parser(url: string) {
 }
 
 export async function POST(req: Request) {
-  const youtube = await Innertube.create({
-    /* setup - see above */
-  });
+  try {
+    const youtube = await Innertube.create({
+      /* setup - see above */
+    });
 
-  const { data } = await req.json();
+    const { data } = await req.json();
 
-  const { link } = data;
+    const { link } = data;
 
-  const id = youtube_parser(link);
+    const id = youtube_parser(link);
 
-  const info = await youtube.getBasicInfo(id as string);
+    const info = await youtube.getBasicInfo(id as string);
 
-  return NextResponse.json(info);
+    return NextResponse.json({ data: info }, { status: 200 });
+  } catch (error) {
+    console.error("Prisma API error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

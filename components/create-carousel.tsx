@@ -67,7 +67,7 @@ const CreateCarousel = ({ session }: { session: Session | null }) => {
           >
             {session ? (
               <>
-                {session.user.quizzesAnswered < 107 ||
+                {session.user.quizzesAnswered < 5 ||
                 session.user.plan === 'premium' ? (
                   <>
                     <Textarea

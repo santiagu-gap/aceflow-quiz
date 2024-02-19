@@ -16,6 +16,7 @@ import {
   CardTitle
 } from './ui/card';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 export default function Chat({
   id,
@@ -24,6 +25,7 @@ export default function Chat({
   id: string;
   currentQuestion: string;
 }) {
+  const { data: session } = useSession();  // get the client session
   const [isThinking, setIsThinking] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [messageCapDetails, setMessageCapDetails] = useState({
@@ -98,7 +100,7 @@ export default function Chat({
 
     if (
       messageCapDetails.tutorQuestions >= 5 &&
-      messageCapDetails.plan !== 'premium'
+      session?.user.plan !== 'premium'
     ) {
       alert(
         'You have reached the limit of tutor questions. Please upgrade to premium to continue.'
