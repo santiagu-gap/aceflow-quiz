@@ -5,6 +5,12 @@
         }, 
         "app/api/*.ts": {
           "maxDuration": 300
+        },
+        "api/*.ts": {
+          "maxDuration": 300
+        },
+        "api/*/*.ts": {
+          "maxDuration": 300
         }
       }
   }
