@@ -13,10 +13,15 @@ const SuccessMessage = ({ session }: { session: Session | null }) => {
       if (typeof window !== 'undefined') {
         const queryParams = new URLSearchParams(window.location.search);
         const email = queryParams.get('email');
+        // console.log(email);
         if (email) {
           // console.log('Email:', email);
           const stripeInfo = await getStripeInfo(email);
-          await addEmailToPremium(email, stripeInfo);
+          const res = await addEmailToPremium(email, stripeInfo);
+          // console.log(
+          //   'addEmailToPremium function call completed for email:',
+          //   res
+          // );
         }
       }
 
@@ -28,17 +33,21 @@ const SuccessMessage = ({ session }: { session: Session | null }) => {
   }, []);
 
   const addEmailToPremium = async (userEmail: string, stripeInfo: any) => {
+    console.log('Adding user to premium:', userEmail, stripeInfo);
     try {
       const response = await axios.post('/api/premium', {
         email: userEmail,
-        customerId: stripeInfo.customerId,
-        subscriptionId: stripeInfo.subscriptionId,
-        currentPeriodEnd: stripeInfo.currentperiodend,
-        priceId: stripeInfo.priceId
+        customerId: stripeInfo?.customerId,
+        subscriptionId: stripeInfo?.subscriptionId,
+        currentPeriodEnd: stripeInfo?.currentPeriodEnd,
+        priceId: stripeInfo?.priceId
       });
-      console.log('User updated to premium:', response.data);
+      // console.log(response.data);
+      // console.log('User updated to premium:', response.data);
+      return response.data;
     } catch (error) {
       console.error('Error updating user to premium:', error);
+      return null;
     }
   };
 
@@ -47,7 +56,7 @@ const SuccessMessage = ({ session }: { session: Session | null }) => {
       const response = await axios.post('/api/validate_subscription', {
         email: userEmail
       });
-      console.log('User information:', response.data.result);
+      // console.log('User information:', response.data.result);
       return response.data.result;
     } catch (error) {
       console.error('Error fetching information:', error);
