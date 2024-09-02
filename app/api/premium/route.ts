@@ -8,7 +8,19 @@ export async function POST(req: Request) {
     const { email, customerId, subscriptionId, currentPeriodEnd, priceId } =
       await req.json();
     // Update the user's plan to 'premium'
-    const period = new Date(currentPeriodEnd).toISOString();
+    let period = null;
+    try {
+      period = new Date(currentPeriodEnd).toISOString();
+    } catch (error) {
+      period = null;
+    }
+    console.log("Updating user to premium with data:", {
+      email,
+      customerId,
+      subscriptionId,
+      currentPeriodEnd,
+      priceId,
+    });
     const updatedUser = await prisma.user.update({
       where: { email: email },
       data: {

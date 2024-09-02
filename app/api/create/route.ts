@@ -2,6 +2,9 @@ import { db } from "@/lib/db";
 import { Quiz } from "@/types";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { Document } from "langchain/document";
+import { OpenAIEmbeddings } from "@langchain/openai";
 
 interface Doc {
   title?: string;
@@ -14,14 +17,22 @@ interface Doc {
   pageContent: string;
 }
 
-const generateQuestions = async (docs: Doc[]) => {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const combineDocumentsFn = (docs: Document[], separator = "\n\n") => {
+  const serializedDocs = docs.map((doc) => doc.pageContent);
+  return serializedDocs.join(separator);
+};
 
-  const combinedText = docs
-    .map((doc) => {
-      return `Title: ${doc.title}\nAuthor: ${doc.metadata.author}\nDescription: ${doc.metadata.description}\nSource: ${doc.metadata.source}\nView Count: ${doc.metadata.view_count}\n\n${doc.pageContent}`;
+const generateQuestions = async (docs: Doc[]) => {
+  const vectorStore = await MemoryVectorStore.fromDocuments(
+    docs,
+    new OpenAIEmbeddings({
+      openAIApiKey: process.env.OPENAI_API_KEY,
     })
-    .join("\n\n");
+  );
+
+  const similarDocs = await vectorStore.similaritySearch("Hello", 5);
+
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   const prompt = `
     You are a world-class question generator for any text the user inputs. You will generate 10 questions based on the text. Here's how you will perform in 4 steps:
@@ -33,7 +44,7 @@ const generateQuestions = async (docs: Doc[]) => {
     Here is the JSON Schema instance your output must adhere to:
     {"type":"object","properties":{"question":{"type":"string","description":"The question"},"options":{"type":"array","items":{"type":"string"},"description":"The options"},"correctAnswer":{"type":"string","description":"The correct answer"}},"required":["question","options","correctAnswer"],"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"}
 
-    Here is the text: "${combinedText}"
+    Here is the text: "${combineDocumentsFn(similarDocs)}"
   `;
 
   const response = await openai.chat.completions.create({
@@ -47,17 +58,17 @@ const generateQuestions = async (docs: Doc[]) => {
     ],
   });
 
-  console.log(response);
+  // console.log(response);
   return response.choices[0].message.content;
 };
 export async function POST(req: Request) {
   const { data } = await req.json();
   const { userId, title, docs }: Quiz = data;
 
-  if (!userId || !title || !docs) {
-    console.log("Missing userId, title or docs");
-    return NextResponse.json({ error: "Missing userId, title or docs" });
-  }
+  // if (!userId || !title || !docs) {
+  //   console.log("Missing userId, title or docs");
+  //   return NextResponse.json({ error: "Missing userId, title or docs" });
+  // }
 
   try {
     // Step 1: Create the quiz
@@ -72,6 +83,12 @@ export async function POST(req: Request) {
     if (!quiz) {
       throw new Error("Failed to create quiz");
     }
+
+    const embeddingsModel = new OpenAIEmbeddings({
+      openAIApiKey: process.env.OPENAI_API_KEY,
+      stripNewLines: true,
+      verbose: true,
+    });
 
     // Step 2: Generate questions with OpenAI
     const transformedDocs: Doc[] = docs.map((doc: any) => ({
